@@ -1,0 +1,8 @@
+//
+// Created by Mindaugas on 2020-11-06.
+//
+
+#ifndef BLOCKCHN_USERGENERATOR_H
+#define BLOCKCHN_USERGENERATOR_H
+
+#endif //BLOCKCHN_USERGENERATOR_H
