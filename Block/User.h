@@ -13,10 +13,12 @@ class User {
     private:
         string uName;
         string publicKey;
+        string privateKey;
         float bal;
-
     public:
-
-
+        explicit User(string name);
+        string getName();
+        float getBalance();
+        string getKey();
 };
 #endif //BLOCKCHN_USER_H
