@@ -30,3 +30,11 @@ User::User(const User &user) {
     this->publicKey = user.getKey();
     this->bal = user.getBalance();
 }
+
+bool User::operator==(User u) {
+    return this->uName == u.getName() && this->publicKey == u.getKey() && this->bal == u.getBalance();
+}
+
+void User::addBalance(float f) {
+    this->bal += f;
+}

@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include <chrono>
 #include <ios>
+#include <sstream>
 
 vector<byte> Hash_Generator::getOutput() {
     return output;

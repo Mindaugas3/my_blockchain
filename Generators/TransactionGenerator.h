@@ -9,5 +9,5 @@
 
 class TransactionGenerator {
     public:
-        static vector<Transaction> pickFromUsers(vector<User> users);
+        static vector<Transaction> pickFromUsers(vector<User> users, int number);
 };

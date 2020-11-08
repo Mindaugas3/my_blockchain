@@ -17,10 +17,13 @@ class User {
         string privateKey;
         float bal;
     public:
-        User(string name);
+        User() = default;
+        explicit User(string name);
         User(const User& user);
         string getName() const ;
         float getBalance() const ;
         string getKey() const;
+        void addBalance(float f);
+        bool operator==(User u);
 };
 #endif //BLOCKCHN_USER_H
