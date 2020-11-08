@@ -9,6 +9,7 @@ Transaction::Transaction(const User& _sender, const User& _receiver, float _amou
     this->sender = _sender;
     this->receiver = _receiver;
     //hashas
+    this->transactionHash = "";
 }
 
 string Transaction::getHash() {

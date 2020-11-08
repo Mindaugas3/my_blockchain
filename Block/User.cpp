@@ -4,11 +4,12 @@
 
 #include "User.h"
 #include "../Generators/RNG.h"
+#include "../Generators/hashes/Hash_Generator.h"
 
 User::User(string name) {
     this->uName = name;
-    this->bal = RNG::rangeRandom(100, 10000000);
-
+    this->bal = RNG::rangeRandom(100, 1000000);
+    this->publicKey = "";
 }
 
 
