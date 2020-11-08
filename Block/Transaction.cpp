@@ -4,7 +4,7 @@
 
 #include "Transaction.h"
 
-Transaction::Transaction(User _sender, User _receiver, float _amount) {
+Transaction::Transaction(const User& _sender, const User& _receiver, float _amount) {
     this->amount = _amount;
     this->sender = _sender;
     this->receiver = _receiver;

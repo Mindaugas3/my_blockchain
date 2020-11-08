@@ -17,7 +17,8 @@ class User {
         string privateKey;
         float bal;
     public:
-        explicit User(string name);
+        User(string name);
+        User(const User& user);
         string getName();
         float getBalance();
         string getKey();
