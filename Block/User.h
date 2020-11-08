@@ -1,7 +1,7 @@
 //
 // Created by Mindaugas on 2020-11-06.
 //
-
+#pragma once
 #ifndef BLOCKCHN_USER_H
 #define BLOCKCHN_USER_H
 
