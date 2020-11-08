@@ -2,7 +2,12 @@
 // Created by Mindaugas on 2020-11-06.
 //
 
-#ifndef BLOCKCHN_TRANSACTIONGENERATOR_H
-#define BLOCKCHN_TRANSACTIONGENERATOR_H
+#pragma once
 
-#endif //BLOCKCHN_TRANSACTIONGENERATOR_H
+#include "../Block/Transaction.h"
+#include <vector>
+
+class TransactionGenerator {
+    public:
+        static vector<Transaction> pickFromUsers(vector<User> users);
+};

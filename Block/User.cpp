@@ -9,23 +9,24 @@
 User::User(string name) {
     this->uName = name;
     this->bal = RNG::rangeRandom(100, 1000000);
-    this->publicKey = "";
+    Hash_Generator hgen = Hash_Generator(name);
+    this->publicKey = hgen.getHash();
 }
 
-
-
-string User::getName() {
+string User::getName() const{
     return this->uName;
 }
 
-float User::getBalance() {
+float User::getBalance() const{
     return this->bal;
 }
 
-string User::getKey() {
+string User::getKey() const{
     return this->publicKey;
 }
 
 User::User(const User &user) {
-
+    this->uName = user.getName();
+    this->publicKey = user.getKey();
+    this->bal = user.getBalance();
 }

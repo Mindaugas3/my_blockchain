@@ -19,8 +19,8 @@ class User {
     public:
         User(string name);
         User(const User& user);
-        string getName();
-        float getBalance();
-        string getKey();
+        string getName() const ;
+        float getBalance() const ;
+        string getKey() const;
 };
 #endif //BLOCKCHN_USER_H

@@ -3,3 +3,7 @@
 //
 
 #include "TransactionGenerator.h"
+
+vector<Transaction> TransactionGenerator::pickFromUsers(vector<User> users) {
+    return vector<Transaction>();
+}

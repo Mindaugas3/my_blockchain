@@ -5,9 +5,18 @@
 #include "Hash_Generator.h"
 #include <stdexcept>
 #include <chrono>
+#include <ios>
 
 vector<byte> Hash_Generator::getOutput() {
     return output;
+}
+
+string Hash_Generator::getHash(){
+    std::stringstream Q;
+    for(uint8_t a : this->output){
+        Q << std::hex << static_cast<int>(a);
+    }
+    return Q.str();
 }
 
 Hash_Generator::Hash_Generator(string str) {

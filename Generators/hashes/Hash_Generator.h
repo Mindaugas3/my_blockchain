@@ -51,6 +51,7 @@ public:
 
     ~Hash_Generator(); //destruktorius
 
+    string getHash();
 };
 
 #endif //BLOCKCHN_HASH_GENERATOR_H
