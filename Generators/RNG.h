@@ -9,6 +9,6 @@
 
 class RNG {
     public:
-        int rangeRandom(int min, int max);
+        static int rangeRandom(int min, int max);
 };
 #endif //BLOCKCHN_RNG_H
