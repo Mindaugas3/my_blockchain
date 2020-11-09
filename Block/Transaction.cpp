@@ -29,3 +29,13 @@ User Transaction::getReceiver() {
 float Transaction::getAmount() {
     return this->amount;
 }
+
+Transaction::Transaction(const Transaction &transaction, User receiver, User sender)
+        : receiver(receiver), sender(sender) {
+    amount = transaction.amount;
+    sender = transaction.sender;
+    receiver = transaction.receiver;
+    transactionHash = transaction.transactionHash;
+}
+
+Transaction::~Transaction() = default;

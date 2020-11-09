@@ -16,11 +16,13 @@ class Transaction{
         User receiver;
         float amount;
     public:
-        Transaction(const User &_sender, const User &_receiver, float _amount);
+        explicit Transaction(const User &_sender, const User &_receiver, float _amount);
+        Transaction(const Transaction &transaction, User receiver, User sender);
         string getHash();
         User getSender();
         User getReceiver();
         float getAmount();
+        ~Transaction();
 };
 
 #endif //BLOCKCHN_TRANSACTION_H

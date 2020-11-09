@@ -17,7 +17,6 @@ class User {
         string privateKey;
         float bal{};
     public:
-        //User() = default;
         User(const string& name);
         User(const User& user);
         string getName() const ;
@@ -26,5 +25,6 @@ class User {
         void addBalance(float f);
         bool operator==(User u);
         User& operator=(const User& u);
+        ~User() = default;
 };
 #endif //BLOCKCHN_USER_H

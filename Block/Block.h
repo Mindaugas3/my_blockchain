@@ -8,6 +8,7 @@
 #include "Transaction.h"
 #include <string>
 #include <vector>
+#include <algorithm>
 
 class Block {
     private:
@@ -19,8 +20,10 @@ class Block {
         int nonce;
         int diffTarget;
     public:
-        Block(vector<Transaction> copiedTransactions, string _prev, string _time, float _v, int diffT);
+        Block(const vector<Transaction>& copiedTransactions, string _prev, string _time, float _v, int diffT);
         string getHashSum();
+        Block(const Block& block);
+
 
     static bool startsWithZeroes(string basicString, int amount);
 };

@@ -23,6 +23,7 @@ int main() {
         cout << u.getName() << " : " << u.getKey() << " : " << u.getBalance() << endl;
     }
 #endif
+
     vector<Transaction> transactionsPool = TransactionGenerator::pickFromUsers(users, 10000);
 #ifdef TEST_usersTransactions
     for(Transaction t : transactionsPool){
@@ -31,7 +32,8 @@ int main() {
 #endif
 
     vector<Block> blockChain;
-    blockChain.push_back(Miner::genesisBlock(transactionsPool));
+    Block genesisBlock = Miner::genesisBlock(transactionsPool);
+    blockChain.push_back(genesisBlock);
 
 #ifdef TEST_Genesis
     cout << "Sukurto bloko hash suma: " << blockChain.at(0).getHashSum() << endl;
