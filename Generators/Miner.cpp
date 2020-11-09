@@ -16,7 +16,7 @@ Block Miner::genesisBlock(vector<Transaction>& transactionPool) {
     string prevBlock = "000000000000000000000000000000000000000000";
     string time = "now();";
     float version = 0.1;
-    int difficulty = 3;
+    int difficulty = 5;
 
     return Block(blockTransactions, prevBlock, time, version, difficulty);
 }

@@ -10,11 +10,13 @@ Block::Block( vector<Transaction> copiedTransactions, string _prev, string _time
     copy(_prev.begin(), _prev.end(), back_inserter(prevBlockHash));
     copy(_time.begin(), _time.end(), back_inserter(timeStamp));
     blockVersion = _v;
-    int nonce_ = 0;
+    diffTarget = diffT;
+    nonce = 0;
+    string hashSum = "";
     do {
         nonce++;
-    } while (!startsWithZeroes(this->getHashSum(), diffT));
-    nonce = nonce_;
+        hashSum = getHashSum();
+    } while (!startsWithZeroes(hashSum, diffT));
 }
 
 string Block::getHashSum() {
@@ -43,7 +45,7 @@ string Block::getHashSum() {
 bool Block::startsWithZeroes(string str, int diff){
     string start;
     for(int i = 0; i < diff; i++) start += to_string(0);
-    if(str.rfind(start, 0) == 0) return true;
+    return str.rfind(start, 0) == 0;
 }
 
 Block::Block(const Block &block) {
