@@ -15,7 +15,7 @@ class Miner {
     static void Mine (vector<Transaction>& transactionPool, vector<Block>& blockChain);
     static Block genesisBlock(vector<Transaction>& transactionPool);
 
-    static vector<Transaction> chooseFrom(const vector<Transaction> &vector, int i);
+    static void chooseFrom(const vector<Transaction> &vector, int i, std::vector<Transaction>& write);
 
     static string now();
 };

@@ -11,23 +11,23 @@ void Miner::Mine(vector<Transaction> &transactionPool, vector<Block> &blockChain
 }
 
 Block Miner::genesisBlock(vector<Transaction>& transactionPool) {
-    vector<Transaction> blockTransactions = chooseFrom(transactionPool, 100);
+    vector<Transaction> blockTransactions;
+    chooseFrom(transactionPool, 100, blockTransactions);
     string prevBlock = "000000000000000000000000000000000000000000";
-    string time = now();
+    string time = "now();";
     float version = 0.1;
     int difficulty = 3;
 
     return Block(blockTransactions, prevBlock, time, version, difficulty);
 }
 
-vector<Transaction> Miner::chooseFrom(const vector<Transaction>& transactionPool, int amount){
-    vector<Transaction> transactionsChosen;
+void Miner::chooseFrom(const vector<Transaction>& transactionPool, int amount, vector<Transaction>& writeTo){
     int any = RNG::rangeRandom(0, transactionPool.size());
 
 
     for(int i = 0; i < amount; i++){
         Transaction transaction = transactionPool.at(any);
-        transactionsChosen.push_back(transaction);
+        writeTo.push_back(transaction);
     }
 }
 

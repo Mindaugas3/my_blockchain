@@ -14,7 +14,7 @@ class User {
     private:
         string uName = "";
         string publicKey = "";
-        string privateKey;
+        string privateKey = "";
         float bal{};
     public:
         User(const string& name);

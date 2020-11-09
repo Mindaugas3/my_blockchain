@@ -20,10 +20,10 @@ class Block {
         int nonce;
         int diffTarget;
     public:
-        Block(const vector<Transaction>& copiedTransactions, string _prev, string _time, float _v, int diffT);
+        Block(vector<Transaction> copiedTransactions, string _prev, string _time, float _v, int diffT);
         string getHashSum();
         Block(const Block& block);
-
+        Block& operator=(const Block& block);
 
     static bool startsWithZeroes(string basicString, int amount);
 };

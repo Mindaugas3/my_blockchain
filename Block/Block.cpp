@@ -5,10 +5,10 @@
 #include "Block.h"
 #include "../Generators/hashes/Hash_Generator.h"
 
-Block::Block(const vector<Transaction>& copiedTransactions, string _prev, string _time, float _v, int diffT) {
+Block::Block( vector<Transaction> copiedTransactions, string _prev, string _time, float _v, int diffT) {
     copy(copiedTransactions.begin(), copiedTransactions.end(), back_inserter(transactionsInBlock));
-    prevBlockHash = _prev;
-    timeStamp = _time;
+    copy(_prev.begin(), _prev.end(), back_inserter(prevBlockHash));
+    copy(_time.begin(), _time.end(), back_inserter(timeStamp));
     blockVersion = _v;
     int nonce_ = 0;
     do {
@@ -47,6 +47,16 @@ bool Block::startsWithZeroes(string str, int diff){
 }
 
 Block::Block(const Block &block) {
+    copy(block.transactionsInBlock.begin(), block.transactionsInBlock.end(), back_inserter(transactionsInBlock));
+    prevBlockHash = block.prevBlockHash;
+    timeStamp = block.timeStamp;
+    blockVersion = block.blockVersion;
+    merkleHash = block.merkleHash;
+    nonce = block.nonce;
+    diffTarget = block.diffTarget;
+}
+
+Block &Block::operator=(const Block &block) {
     copy(block.transactionsInBlock.begin(), block.transactionsInBlock.end(), back_inserter(transactionsInBlock));
     prevBlockHash = block.prevBlockHash;
     timeStamp = block.timeStamp;

@@ -5,7 +5,6 @@
 #include "Generators/UserGenerator.h"
 #include "Block/Transaction.h"
 #include "Generators/TransactionGenerator.h"
-#include "Generators/hashes/Hash_Generator.h"
 #include "Block/Block.h"
 #include "Generators/Miner.h"
 

@@ -26,9 +26,9 @@ string User::getKey() const{
 }
 
 User::User(const User &user) {
-    this->uName = user.getName();
-    this->publicKey = user.getKey();
-    this->bal = user.getBalance();
+    uName = user.getName();
+    publicKey = user.getKey();
+    bal = user.getBalance();
 }
 
 bool User::operator==(User u) {

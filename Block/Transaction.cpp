@@ -5,7 +5,7 @@
 #include "Transaction.h"
 #include "../Generators/hashes/Hash_Generator.h"
 
-Transaction::Transaction(const User &_sender, const User &_receiver, float _amount)
+Transaction::Transaction(User _sender,User _receiver, float _amount)
         : receiver(receiver), sender(sender) {
     amount = _amount;
     sender = _sender;

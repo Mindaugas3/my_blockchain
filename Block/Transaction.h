@@ -11,12 +11,12 @@ using namespace std;
 
 class Transaction{
     private:
-        string transactionHash;
+        string transactionHash = "";
         User sender;
         User receiver;
         float amount;
     public:
-        explicit Transaction(const User &_sender, const User &_receiver, float _amount);
+        explicit Transaction(User sender, User _receiver, float _amount);
         Transaction(const Transaction &transaction, User receiver, User sender);
         string getHash();
         User getSender();
