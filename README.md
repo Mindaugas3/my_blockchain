@@ -1,8 +1,8 @@
-#Mano blockchain
+# Mano blockchain
 
 Šioje repozicijoje kuriama uždara blokų grandinė.
 
-###v0.1
+### v0.1
 
 - Generuoja 1000 vartotojų 
 - Generuoja 10 000 transakcijų
