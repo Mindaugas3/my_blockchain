@@ -5,11 +5,12 @@
 #include "RNG.h"
 #include <random>
 #include <ctime>
-    using namespace std;
+#include <chrono>
+
+using namespace std;
 int RNG::rangeRandom (int min, int max){
     srand(time(NULL));
-    std::random_device rd;
-    std::mt19937 mt(rd());
+    std::mt19937 mt(std::chrono::system_clock::now().time_since_epoch().count());
     std::uniform_real_distribution<double> dist(min, max);
     return dist(mt);
 }
