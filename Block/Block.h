@@ -1,23 +1,30 @@
 //
 // Created by Mindaugas on 2020-11-06.
 //
-
-#include "Transaction.h"
-#include <string>
-
+#pragma once
 #ifndef BLOCKCHN_BLOCK_H
 #define BLOCKCHN_BLOCK_H
 
-#endif //BLOCKCHN_BLOCK_H
+#include "Transaction.h"
+#include <string>
+#include <vector>
+#include <algorithm>
 
 class Block {
     private:
-        static const int amount = 100;
-        Transaction transactions[amount];
+        vector<Transaction> transactionsInBlock;
         string prevBlockHash;
         string timeStamp;
         float blockVersion;
         string merkleHash;
         int nonce;
         int diffTarget;
+    public:
+        Block(vector<Transaction> copiedTransactions, string _prev, string _time, float _v, int diffT);
+        string getHashSum();
+        Block(const Block& block);
+        Block& operator=(const Block& block);
+
+    static bool startsWithZeroes(string basicString, int amount);
 };
+#endif //BLOCKCHN_BLOCK_H

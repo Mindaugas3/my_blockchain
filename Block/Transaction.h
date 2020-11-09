@@ -1,7 +1,7 @@
 //
 // Created by Mindaugas on 2020-11-06.
 //
-
+#pragma once
 #ifndef BLOCKCHN_TRANSACTION_H
 #define BLOCKCHN_TRANSACTION_H
 
@@ -11,16 +11,18 @@ using namespace std;
 
 class Transaction{
     private:
-        string transactionHash;
+        string transactionHash = "";
         User sender;
         User receiver;
         float amount;
     public:
-        Transaction(User _sender, User _receiver, float _amount);
+        explicit Transaction(User sender, User _receiver, float _amount);
+        Transaction(const Transaction &transaction, User receiver, User sender);
         string getHash();
         User getSender();
         User getReceiver();
         float getAmount();
+        ~Transaction();
 };
 
 #endif //BLOCKCHN_TRANSACTION_H

@@ -4,21 +4,44 @@
 
 #include "User.h"
 #include "../Generators/RNG.h"
+#include "../Generators/hashes/Hash_Generator.h"
 
-User::User(string name) {
-    this->uName = name;
-    this->bal = RNG::rangeRandom(100, 10000000);
-    
+User::User(const string& name) {
+    uName = name;
+    bal = (float) RNG::rangeRandom(100, 1000000);
+    Hash_Generator hgen = Hash_Generator(name);
+    publicKey = hgen.getHash();
 }
 
-string User::getName() {
+string User::getName() const{
     return this->uName;
 }
 
-float User::getBalance() {
+float User::getBalance() const{
     return this->bal;
 }
 
-string User::getKey() {
+string User::getKey() const{
     return this->publicKey;
+}
+
+User::User(const User &user) {
+    uName = user.getName();
+    publicKey = user.getKey();
+    bal = user.getBalance();
+}
+
+bool User::operator==(User u) {
+    return this->uName == u.getName() && this->publicKey == u.getKey() && this->bal == u.getBalance();
+}
+
+void User::addBalance(float f) {
+    bal += f;
+}
+
+User& User::operator=(const User& u) {
+    bal = u.getBalance();
+    publicKey = u.getKey();
+    uName = u.getName();
+    return *this;
 }

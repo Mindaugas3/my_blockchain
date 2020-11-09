@@ -2,15 +2,15 @@
 // Created by Mindaugas on 2020-11-08.
 //
 
-
 #include "RNG.h"
+#include <random>
+#include <ctime>
+#include <chrono>
 
+using namespace std;
 int RNG::rangeRandom (int min, int max){
-    int n = max - min + 1;
-    int remainder = RAND_MAX % n;
-    int x;
-    do{
-        x = rand();
-    }while (x >= RAND_MAX - remainder);
-    return min + x % n;
+    srand(time(NULL));
+    std::mt19937 mt(std::chrono::system_clock::now().time_since_epoch().count());
+    std::uniform_real_distribution<double> dist(min, max);
+    return dist(mt);
 }
