@@ -11,6 +11,8 @@
 
 using namespace std;
 
+#define TEST_Genesis
+
 int main() {
 
     vector<User> users;
@@ -29,8 +31,11 @@ int main() {
 #endif
 
     vector<Block> blockChain;
-    blockChain.push_back(Miner::genesisBlock(blockChain));
+    blockChain.push_back(Miner::genesisBlock(transactionsPool));
 
+#ifdef TEST_Genesis
+    cout << "Sukurto bloko hash suma: " << blockChain.at(0).getHashSum() << endl;
+#endif
 
     system("PAUSE");
     return 0;

@@ -12,8 +12,8 @@ class Miner {
     private:
 
     public:
-    static void Mine (const vector<Transaction>& transactionPool, vector<Block>& blockChain);
-    static Block genesisBlock(const vector<Transaction>& transactionPool);
+    static void Mine (vector<Transaction>& transactionPool, vector<Block>& blockChain);
+    static Block genesisBlock(vector<Transaction>& transactionPool);
 
     static vector<Transaction> chooseFrom(const vector<Transaction> &vector, int i);
 

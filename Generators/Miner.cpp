@@ -6,11 +6,11 @@
 #include "Miner.h"
 #include "RNG.h"
 
-void Miner::Mine(const vector<Transaction> &transactionPool, vector<Block> &blockChain) {
+void Miner::Mine(vector<Transaction> &transactionPool, vector<Block> &blockChain) {
 
 }
 
-Block Miner::genesisBlock(const vector<Transaction>& transactionPool) {
+Block Miner::genesisBlock(vector<Transaction>& transactionPool) {
     vector<Transaction> blockTransactions = chooseFrom(transactionPool, 100);
     string prevBlock = "000000000000000000000000000000000000000000";
     string time = now();

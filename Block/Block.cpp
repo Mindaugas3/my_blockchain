@@ -9,6 +9,7 @@ Block::Block(vector<Transaction> copiedTransactions, string _prev, string _time,
     transactionsInBlock = copiedTransactions;
     prevBlockHash = _prev;
     timeStamp = _time;
+    blockVersion = _v;
     int nonce_ = 0;
     do {
         nonce++;
