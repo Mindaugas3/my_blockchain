@@ -7,16 +7,20 @@
 
 #include "Transaction.h"
 #include <string>
+#include <vector>
 
 class Block {
     private:
-        static const int amount = 100;
-        Transaction transactions[amount];
+        vector<Transaction> transactionsInBlock;
         string prevBlockHash;
         string timeStamp;
         float blockVersion;
         string merkleHash;
         int nonce;
         int diffTarget;
+
+    public:
+        Block(vector<Transaction> copiedTransactions, string _prev, string _time, float _v, int _nonce, int diffT);
+
 };
 #endif //BLOCKCHN_BLOCK_H

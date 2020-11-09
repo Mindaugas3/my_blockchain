@@ -13,7 +13,7 @@ class Miner {
 
     public:
     static void Mine (const vector<Transaction>& transactionPool, vector<Block>& blockChain);
-
+    static Block genesisBlock(const vector<Transaction>& transactionPool);
 };
 
 #endif //BLOCKCHN_MINER_H
