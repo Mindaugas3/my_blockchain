@@ -29,7 +29,7 @@ int main() {
 #endif
 
     vector<Block> blockChain;
-    blockChain.push_back(Miner::genesisBlock());
+    blockChain.push_back(Miner::genesisBlock(blockChain));
 
 
     system("PAUSE");

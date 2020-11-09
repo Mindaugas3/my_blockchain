@@ -18,10 +18,10 @@ class Block {
         string merkleHash;
         int nonce;
         int diffTarget;
-
     public:
-        Block(vector<Transaction> copiedTransactions, string _prev, string _time, float _v, int _nonce, int diffT);
+        Block(vector<Transaction> copiedTransactions, string _prev, string _time, float _v, int diffT);
         string getHashSum();
 
+    static bool startsWithZeroes(string basicString, int amount);
 };
 #endif //BLOCKCHN_BLOCK_H

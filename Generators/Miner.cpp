@@ -15,10 +15,9 @@ Block Miner::genesisBlock(const vector<Transaction>& transactionPool) {
     string prevBlock = "000000000000000000000000000000000000000000";
     string time = now();
     float version = 0.1;
-    int nonce;
-    int difficulty;
+    int difficulty = 3;
 
-    return Block(blockTransactions, prevBlock, time, version, nonce, difficulty);
+    return Block(blockTransactions, prevBlock, time, version, difficulty);
 }
 
 vector<Transaction> Miner::chooseFrom(const vector<Transaction>& transactionPool, int amount){
