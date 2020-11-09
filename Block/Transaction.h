@@ -1,7 +1,7 @@
 //
 // Created by Mindaugas on 2020-11-06.
 //
-
+#pragma once
 #ifndef BLOCKCHN_TRANSACTION_H
 #define BLOCKCHN_TRANSACTION_H
 
@@ -16,7 +16,7 @@ class Transaction{
         User receiver;
         float amount;
     public:
-        Transaction(const User& _sender, const User& _receiver, float _amount);
+        Transaction(const User &_sender, const User &_receiver, float _amount);
         string getHash();
         User getSender();
         User getReceiver();

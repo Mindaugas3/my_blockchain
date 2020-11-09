@@ -14,6 +14,6 @@ using namespace std;
 
 class UserGenerator {
     public:
-        static vector<User>& generateUsers(int amount);
+        static void generateUsers(vector<User>& userV, int amount);
 };
 #endif //BLOCKCHN_USERGENERATOR_H

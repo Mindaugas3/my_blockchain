@@ -5,12 +5,13 @@
 #include "Transaction.h"
 #include "../Generators/hashes/Hash_Generator.h"
 
-Transaction::Transaction(const User& _sender, const User& _receiver, float _amount) {
-    this->amount = _amount;
-    this->sender = _sender;
-    this->receiver = _receiver;
+Transaction::Transaction(const User &_sender, const User &_receiver, float _amount)
+        : receiver(receiver), sender(sender) {
+    amount = _amount;
+    sender = _sender;
+    receiver = _receiver;
     //hashas
-    this->transactionHash = Hash_Generator(to_string(amount) + _sender.getKey() + _receiver.getKey()).getHash();
+    transactionHash = Hash_Generator(to_string(amount) + _sender.getKey() + _receiver.getKey()).getHash();
 }
 
 string Transaction::getHash() {

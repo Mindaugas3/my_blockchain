@@ -4,12 +4,10 @@
 
 #include "UserGenerator.h"
 
-vector<User>& UserGenerator::generateUsers(int amount) {
-    vector<User> users;
+void UserGenerator::generateUsers(vector<User>& userVec, int amount) {
     for(int i = 0; i< amount; i++){
 
         User someUser = User("user"+to_string(i));
-        users.push_back(someUser);
+        userVec.push_back(someUser);
     }
-    return users;
 }

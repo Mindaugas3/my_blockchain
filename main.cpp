@@ -5,14 +5,17 @@
 #include "Generators/UserGenerator.h"
 #include "Block/Transaction.h"
 #include "Generators/TransactionGenerator.h"
+#include "Generators/hashes/Hash_Generator.h"
+
 using namespace std;
 
 int main() {
     cout << "anything";
-    vector<User> users = UserGenerator::generateUsers(1000); //nauji useriai
-    User user = User("some random user");
+    User _user = User("a");
+    cout << "test user: " << _user.getKey() << " : " << _user.getBalance();
+    vector<User> users;
+    UserGenerator::generateUsers(users, 1000); //nauji useriai
 
-    cout << user.getName() << " : "<<user.getKey() << endl;
 
     for(User u : users){
         cout << u.getName() << " : " << u.getKey() << " : " << u.getBalance() << endl;

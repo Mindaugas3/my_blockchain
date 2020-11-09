@@ -12,18 +12,19 @@ using namespace std;
 
 class User {
     private:
-        string uName;
-        string publicKey;
+        string uName = "";
+        string publicKey = "";
         string privateKey;
-        float bal;
+        float bal{};
     public:
-        User() = default;
-        explicit User(string name);
+        //User() = default;
+        User(const string& name);
         User(const User& user);
         string getName() const ;
         float getBalance() const ;
         string getKey() const;
         void addBalance(float f);
         bool operator==(User u);
+        User& operator=(const User& u);
 };
 #endif //BLOCKCHN_USER_H

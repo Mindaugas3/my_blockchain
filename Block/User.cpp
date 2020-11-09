@@ -6,11 +6,11 @@
 #include "../Generators/RNG.h"
 #include "../Generators/hashes/Hash_Generator.h"
 
-User::User(string name) {
-    this->uName = name;
-    this->bal = RNG::rangeRandom(100, 1000000);
+User::User(const string& name) {
+    uName = name;
+    bal = (float) RNG::rangeRandom(100, 1000000);
     Hash_Generator hgen = Hash_Generator(name);
-    this->publicKey = hgen.getHash();
+    publicKey = hgen.getHash();
 }
 
 string User::getName() const{
@@ -36,5 +36,12 @@ bool User::operator==(User u) {
 }
 
 void User::addBalance(float f) {
-    this->bal += f;
+    bal += f;
+}
+
+User& User::operator=(const User& u) {
+    bal = u.getBalance();
+    publicKey = u.getKey();
+    uName = u.getName();
+    return *this;
 }

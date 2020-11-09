@@ -1,14 +1,12 @@
 //
 // Created by Mindaugas on 2020-11-06.
 //
-
-#include "Transaction.h"
-#include <string>
-
+#pragma once
 #ifndef BLOCKCHN_BLOCK_H
 #define BLOCKCHN_BLOCK_H
 
-#endif //BLOCKCHN_BLOCK_H
+#include "Transaction.h"
+#include <string>
 
 class Block {
     private:
@@ -21,3 +19,4 @@ class Block {
         int nonce;
         int diffTarget;
 };
+#endif //BLOCKCHN_BLOCK_H
