@@ -16,6 +16,8 @@ class Miner {
     static Block genesisBlock(const vector<Transaction>& transactionPool);
 
     static vector<Transaction> chooseFrom(const vector<Transaction> &vector, int i);
+
+    static string now();
 };
 
 #endif //BLOCKCHN_MINER_H

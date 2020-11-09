@@ -2,6 +2,7 @@
 // Created by Mindaugas on 2020-11-09.
 //
 
+#include <ctime>
 #include "Miner.h"
 #include "RNG.h"
 
@@ -11,7 +12,13 @@ void Miner::Mine(const vector<Transaction> &transactionPool, vector<Block> &bloc
 
 Block Miner::genesisBlock(const vector<Transaction>& transactionPool) {
     vector<Transaction> blockTransactions = chooseFrom(transactionPool, 100);
-    return Block();
+    string prevBlock = "000000000000000000000000000000000000000000";
+    string time = now();
+    float version = 0.1;
+    int nonce;
+    int difficulty;
+
+    return Block(blockTransactions, prevBlock, time, version, nonce, difficulty);
 }
 
 vector<Transaction> Miner::chooseFrom(const vector<Transaction>& transactionPool, int amount){
@@ -23,4 +30,17 @@ vector<Transaction> Miner::chooseFrom(const vector<Transaction>& transactionPool
         Transaction transaction = transactionPool.at(any);
         transactionsChosen.push_back(transaction);
     }
+}
+
+string Miner::now(){
+    time_t rawtime;
+    struct tm * timeinfo;
+    char buffer[90];
+
+    time (&rawtime);
+    timeinfo = localtime(&rawtime);
+
+    strftime(buffer,sizeof(buffer),"%d-%m-%Y %H:%M:%S",timeinfo);
+    std::string str(buffer);
+    return str;
 }

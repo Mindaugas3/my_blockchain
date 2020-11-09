@@ -7,3 +7,7 @@
 Block::Block(vector<Transaction> copiedTransactions, string _prev, string _time, float _v, int _nonce, int diffT) {
 
 }
+
+string Block::getHashSum() {
+    return std::string();
+}

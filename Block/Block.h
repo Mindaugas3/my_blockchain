@@ -21,6 +21,7 @@ class Block {
 
     public:
         Block(vector<Transaction> copiedTransactions, string _prev, string _time, float _v, int _nonce, int diffT);
+        string getHashSum();
 
 };
 #endif //BLOCKCHN_BLOCK_H
