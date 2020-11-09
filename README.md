@@ -22,8 +22,10 @@
 **Bloko *proof-of-work* realizuotas** pasiimant Nonce ir do-while ciklu didinant jo reikšmę, kol hašas turės tiek nulių, kiek yra numatyta *Difficulty Target*.
 
 **Genesis block hašas**:
+
 ![](https://i.imgur.com/anisM5I.png)
 Bloko sunkumas numatytas toks, kad hašas turėtų 5 nulius pradžioje.
 
  ⛏ **Kasimas** ⛏ 
+ 
 ![](https://i.imgur.com/nj87MVB.png)
