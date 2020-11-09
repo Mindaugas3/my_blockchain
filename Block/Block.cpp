@@ -4,6 +4,7 @@
 
 #include "Block.h"
 #include "../Generators/hashes/Hash_Generator.h"
+#include "../Generators/hashes/Sha256.h"
 
 Block::Block( vector<Transaction> copiedTransactions, string _prev, string _time, float _v, int diffT) {
     copy(copiedTransactions.begin(), copiedTransactions.end(), back_inserter(transactionsInBlock));
@@ -38,8 +39,8 @@ string Block::getHashSum() {
     everything += to_string(diffTarget);
     everything += " : ";
     everything += to_string(nonce);
-    Hash_Generator hgen = Hash_Generator(everything);
-    return hgen.getHash();
+    string hash = sha256(everything);
+    return hash;
 }
 
 bool Block::startsWithZeroes(string str, int diff){
