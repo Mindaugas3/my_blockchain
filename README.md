@@ -25,5 +25,5 @@
 ![](https://i.imgur.com/anisM5I.png)
 Bloko sunkumas numatytas toks, kad hašas turėtų 5 nulius pradžioje.
 
-**⛏Kasimas⛏**
+** ⛏ Kasimas ⛏ **
 ![](https://i.imgur.com/nj87MVB.png)
