@@ -35,7 +35,7 @@ int main() {
     blockChain.push_back(genesisBlock);
 
 #ifdef TEST_Genesis
-    cout << "Sukurto bloko hash suma: " << blockChain.at(0).getHashSum() << endl;
+    cout << "Sukurto genesis bloko hash suma: " << blockChain.at(0).getHashSum() << endl;
 #endif
 
     system("PAUSE");
