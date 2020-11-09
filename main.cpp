@@ -17,18 +17,10 @@ int main() {
     vector<User> users;
     UserGenerator::generateUsers(users, 1000); //nauji useriai
 
-#ifdef TEST_usersTransactions
-    for(const User& u : users){
-        cout << u.getName() << " : " << u.getKey() << " : " << u.getBalance() << endl;
-    }
-#endif
+cout << "Sukurti vartotojai!" << endl;
 
     vector<Transaction> transactionsPool = TransactionGenerator::pickFromUsers(users, 10000);
-#ifdef TEST_usersTransactions
-    for(Transaction t : transactionsPool){
-        cout << "Transaction:" << t.getHash() << " : " << t.getSender().getName() << " : " << t.getReceiver().getName() << " : " << t.getAmount() << endl;
-    }
-#endif
+cout << "Sukurtos transakcijos!" << endl;
 
     vector<Block> blockChain;
     Block genesisBlock = Miner::genesisBlock(transactionsPool);
@@ -36,8 +28,24 @@ int main() {
 
 #ifdef TEST_Genesis
     cout << "Sukurto genesis bloko hash suma: " << blockChain.at(0).getHashSum() << endl;
-#endif
+    cout << endl << "Kasyklos dydis: " << transactionsPool.size() << endl;
 
-    system("PAUSE");
+#endif
+    string command;
+    cout << "-mine : Kasti bloka" << endl;
+    Block lastBlockUsed = genesisBlock;
+    while (cin >> command){
+        if(command == "-mine"){
+            while(!transactionsPool.empty()){
+                Block minedBlock = Miner::Mine(transactionsPool, lastBlockUsed);
+                blockChain.push_back(minedBlock);
+                cout << "Iskasto bloko hash suma: " << minedBlock.getHashSum() << endl;
+                lastBlockUsed = minedBlock;
+
+                cout << endl << "Kasyklos dydis: " << transactionsPool.size() << endl;
+            }
+
+        }
+    }
     return 0;
 }

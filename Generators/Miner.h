@@ -7,15 +7,16 @@
 
 #include "../Block/Block.h"
 #include <vector>
+#include <algorithm>
 
-class Miner {
+class Miner { //bloku kasykla
     private:
 
     public:
-    static void Mine (vector<Transaction>& transactionPool, vector<Block>& blockChain);
+    static Block Mine (vector<Transaction>& transactionPool, Block previousBlock);
     static Block genesisBlock(vector<Transaction>& transactionPool);
 
-    static void chooseFrom(const vector<Transaction> &vector, int i, std::vector<Transaction>& write);
+    static void chooseFrom(vector<Transaction> &vector, int i, std::vector<Transaction>& write);
 
     static string now();
 };
