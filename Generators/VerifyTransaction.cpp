@@ -12,3 +12,7 @@ bool VerifyTransaction::verify(Transaction& t){
         string receiverKey = t.getReceiver().getKey();
         return (t.getHash() == Hash_Generator(to_string(bal) + senderKey + receiverKey).getHash());
 }
+
+bool VerifyTransaction::senderHasEnoughCredits(Transaction& transaction) {
+    return transaction.getAmount() < transaction.getSender().getBalance();
+}
