@@ -6,8 +6,11 @@
 #include "Miner.h"
 #include <iostream>
 #include <chrono>
+#include <stdexcept>
 #include "RNG.h"
 #include "VerifyTransaction.h"
+
+#define TIME_LIMIT_MINUTES 5
 
 Block Miner::Mine(vector<Transaction> &transactionPool, Block previousBlock) {
     vector<Transaction> blockTransactions;
@@ -32,12 +35,39 @@ Block Miner::genesisBlock(vector<Transaction>& transactionPool) {
 }
 
 Block Miner::fromCandidateBlocks(vector<Transaction>& transactionPool){
-    auto start = chrono::system_clock::now();
+    //inicializuojame blokus-kandidatus
+    vector<vector<Transaction>> candidateTransactionPools;
 
+    for(int i = 5; i > 0; i--){
+        vector<Transaction> singlePotentialBlock;
+        chooseFrom(transactionPool, 100, singlePotentialBlock);
+        candidateTransactionPools.push_back(singlePotentialBlock);
+    }
+    //inicializuojame kitus duomenis
+    string prevBlock = "000000000000000000000000000000000000000000";
+    string time = now();
+    float version = 0.1;
+    int difficulty = 5;
+    //kasame bloka
+    while(!candidateTransactionPools.empty()){
+        auto start = chrono::system_clock::now();
+        Block candidateBlock = Block(candidateTransactionPools.at(candidateTransactionPools.size() - 1),
+                prevBlock,
+                time,
+                version,
+                difficulty);
+        auto end = chrono::system_clock::now();
 
-    auto end = chrono::system_clock::now();
-
-};
+        chrono::duration<double> seconds_time = end - start;
+        cout << "Uztruko: " << seconds_time.count() << " laiko  " << endl;
+        if(seconds_time.count() > TIME_LIMIT_MINUTES*60){ //geras? Iseiname is funkcijos ir graziname bloka kandidata
+            return candidateBlock;
+        } else {
+            candidateTransactionPools.erase(candidateTransactionPools.end());
+        }
+    }
+    throw std::runtime_error("Netinkamai sukonfiguruotas blockchainas - kandidatas blokas renkamas per ilgai!");
+}
 
 void Miner::chooseFrom(vector<Transaction>& transactionPool, int amount, vector<Transaction>& writeTo){
     int any = RNG::rangeRandom(0, transactionPool.size());

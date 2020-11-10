@@ -9,10 +9,10 @@
 
 class VerifyTransaction{
 public:
-    static bool verify(Transaction& t) ;
+    static bool verify(Transaction& t);
 
     static bool senderHasEnoughCredits(Transaction& transaction);
-}
+};
 
 
 #endif //BLOCKCHN_VERIFYTRANSACTION_H
