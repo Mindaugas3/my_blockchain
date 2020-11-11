@@ -22,8 +22,10 @@ cout << "Sukurti vartotojai!" << endl;
     vector<Transaction> transactionsPool = TransactionGenerator::pickFromUsers(users, 10000);
 cout << "Sukurtos transakcijos!" << endl;
 
+
     vector<Block> blockChain;
-    Block genesisBlock = Miner::genesisBlock(transactionsPool);
+    cout << "Renkami blokai kandidatai: " << endl;
+    Block genesisBlock = Miner::fromCandidateBlocks(transactionsPool);
     blockChain.push_back(genesisBlock);
 
 #ifdef TEST_Genesis

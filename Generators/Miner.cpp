@@ -4,8 +4,14 @@
 
 #include <ctime>
 #include "Miner.h"
-
+#include <iostream>
+#include <chrono>
+#include <stdexcept>
 #include "RNG.h"
+#include "VerifyTransaction.h"
+
+#define TIME_LIMIT_MINUTES 1
+#define difficulty 4
 
 Block Miner::Mine(vector<Transaction> &transactionPool, Block previousBlock) {
     vector<Transaction> blockTransactions;
@@ -13,7 +19,6 @@ Block Miner::Mine(vector<Transaction> &transactionPool, Block previousBlock) {
     string prevBlockHash = previousBlock.getHashSum();
     string time = now();
     float version = 0.1;
-    int difficulty = 5;
 
     return Block(blockTransactions, prevBlockHash, time, version, difficulty);
 }
@@ -24,19 +29,63 @@ Block Miner::genesisBlock(vector<Transaction>& transactionPool) {
     string prevBlock = "000000000000000000000000000000000000000000";
     string time = now();
     float version = 0.1;
-    int difficulty = 5;
 
     return Block(blockTransactions, prevBlock, time, version, difficulty);
+}
+
+Block Miner::fromCandidateBlocks(vector<Transaction>& transactionPool){
+    //inicializuojame blokus-kandidatus
+    vector<vector<Transaction>> candidateTransactionPools;
+
+    for(int i = 5; i > 0; i--){
+        vector<Transaction> singlePotentialBlock;
+        chooseFrom(transactionPool, 100, singlePotentialBlock);
+        candidateTransactionPools.push_back(singlePotentialBlock);
+    }
+    //inicializuojame kitus duomenis
+    string prevBlock = "000000000000000000000000000000000000000000";
+    string time = now();
+    float version = 0.1;
+    //kasame bloka
+    while(!candidateTransactionPools.empty()){
+        auto start = chrono::system_clock::now();
+        size_t candidatePS = candidateTransactionPools.size();
+        Block candidateBlock = Block(candidateTransactionPools.at(candidateTransactionPools.size() - 1),
+                prevBlock,
+                time,
+                version,
+                difficulty);
+        auto end = chrono::system_clock::now();
+
+        chrono::duration<double> seconds_time = end - start;
+        cout << "Uztruko: " << seconds_time.count() << " laiko  " << endl;
+        if(seconds_time.count() < TIME_LIMIT_MINUTES*60){ //geras? Iseiname is funkcijos ir graziname bloka kandidata
+            return candidateBlock;
+        } else {
+            candidateTransactionPools.erase(candidateTransactionPools.end());
+            continue;
+        }
+    }
+    throw std::runtime_error("Netinkamai sukonfiguruotas blockchainas - kandidatas blokas renkamas per ilgai!");
 }
 
 void Miner::chooseFrom(vector<Transaction>& transactionPool, int amount, vector<Transaction>& writeTo){
     int any = RNG::rangeRandom(0, transactionPool.size());
 
-
-    for(int i = 0; i < amount; i++){
+    while(writeTo.size() < 100){ //paima butent 100 TINKAMU transakciju. Kitas meta lauk is kasyklos
         Transaction transaction = transactionPool.at(any);
-        writeTo.push_back(transaction);
-        transactionPool.erase(transactionPool.begin() + any);
+        if(VerifyTransaction::verify(transaction) && VerifyTransaction::senderHasEnoughCredits(transaction)){
+            //patikrina ar informacija ir hash kodas sutampa
+            //patikrina ar pakankamai kreditu turi vartotojas
+            writeTo.push_back(transaction);
+            transactionPool.erase(transactionPool.begin() + any);
+        } else {
+            string message;
+            if(!VerifyTransaction::verify(transaction)) message = " Hasai nesutampa ";
+            if(!VerifyTransaction::senderHasEnoughCredits(transaction)) message = " Kreditu neuztenka! ";
+            cout << "Transakcija bloga! " << message << endl;
+            transactionPool.erase(transactionPool.begin() + any);
+        }
     }
 }
 

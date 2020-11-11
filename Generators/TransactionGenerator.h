@@ -10,4 +10,6 @@
 class TransactionGenerator {
     public:
         static vector<Transaction> pickFromUsers(vector<User> users, int number);
+
+        static string getMerkleRoot(const vector<Transaction>& transactionPool);
 };

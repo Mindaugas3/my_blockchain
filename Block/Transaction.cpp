@@ -14,7 +14,7 @@ Transaction::Transaction(User _sender,User _receiver, float _amount)
     transactionHash = Hash_Generator(to_string(amount) + _sender.getKey() + _receiver.getKey()).getHash();
 }
 
-string Transaction::getHash() {
+string Transaction::getHash() const{
     return this->transactionHash;
 }
 

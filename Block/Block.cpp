@@ -3,8 +3,8 @@
 //
 
 #include "Block.h"
-#include "../Generators/hashes/Hash_Generator.h"
 #include "../Generators/hashes/Sha256.h"
+#include "../Generators/TransactionGenerator.h"
 
 Block::Block( vector<Transaction> copiedTransactions, string _prev, string _time, float _v, int diffT) {
     copy(copiedTransactions.begin(), copiedTransactions.end(), back_inserter(transactionsInBlock));
@@ -22,9 +22,7 @@ Block::Block( vector<Transaction> copiedTransactions, string _prev, string _time
 
 string Block::getHashSum() {
     string everything;
-    for(Transaction t : transactionsInBlock){
-        everything += t.getHash();
-    }
+    everything += TransactionGenerator::getMerkleRoot(transactionsInBlock);
     everything += " : ";
     everything += prevBlockHash;
     everything += " : ";

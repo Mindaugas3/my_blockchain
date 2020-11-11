@@ -2,8 +2,10 @@
 // Created by Mindaugas on 2020-11-06.
 //
 
+#include <algorithm>
 #include "TransactionGenerator.h"
 #include "RNG.h"
+#include "hashes/Hash_Generator.h"
 
 vector<Transaction> TransactionGenerator::pickFromUsers(vector<User> users, int number) {
     vector<Transaction> transactions = vector<Transaction>();
@@ -35,3 +37,33 @@ vector<Transaction> TransactionGenerator::pickFromUsers(vector<User> users, int 
     }
     return transactions;
 }
+
+string TransactionGenerator::getMerkleRoot(const vector<Transaction> &transactionPool) {
+    vector<Transaction> transactions = transactionPool;
+    sort(transactions.begin(), transactions.end(),
+            [](const Transaction& a, const Transaction& b) -> bool //lambda funkcija rikiavimui
+            {
+                return a.getHash() > b.getHash();
+            });
+    vector<string> level;
+    for(const Transaction& t : transactions){
+        level.push_back(t.getHash());
+    }
+    //gauname sakni
+    while(level.size() > 1){
+        vector<string> higherLevel;
+        if(level.size() % 2 != 0){
+            level.push_back(level.at(level.size() - 1));
+        }
+        for(int i = 0; i < level.size(); i+=2){
+            Hash_Generator hgen = Hash_Generator(level.at(i) + level.at(i+1));
+            higherLevel.push_back(hgen.getHash());
+        }
+
+        level = higherLevel;
+    }
+
+    return level.at(0);
+}
+
+
