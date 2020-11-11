@@ -14,5 +14,5 @@ bool VerifyTransaction::verify(Transaction& t){
 }
 
 bool VerifyTransaction::senderHasEnoughCredits(Transaction& transaction) {
-    return transaction.getAmount() < transaction.getSender().getBalance();
+    return transaction.getAmount() <= transaction.getSender().getBalance();
 }

@@ -11,6 +11,7 @@
 #include "VerifyTransaction.h"
 
 #define TIME_LIMIT_MINUTES 5
+#define difficulty 4
 
 Block Miner::Mine(vector<Transaction> &transactionPool, Block previousBlock) {
     vector<Transaction> blockTransactions;
@@ -18,7 +19,6 @@ Block Miner::Mine(vector<Transaction> &transactionPool, Block previousBlock) {
     string prevBlockHash = previousBlock.getHashSum();
     string time = now();
     float version = 0.1;
-    int difficulty = 5;
 
     return Block(blockTransactions, prevBlockHash, time, version, difficulty);
 }
@@ -29,7 +29,6 @@ Block Miner::genesisBlock(vector<Transaction>& transactionPool) {
     string prevBlock = "000000000000000000000000000000000000000000";
     string time = now();
     float version = 0.1;
-    int difficulty = 5;
 
     return Block(blockTransactions, prevBlock, time, version, difficulty);
 }
@@ -47,10 +46,10 @@ Block Miner::fromCandidateBlocks(vector<Transaction>& transactionPool){
     string prevBlock = "000000000000000000000000000000000000000000";
     string time = now();
     float version = 0.1;
-    int difficulty = 5;
     //kasame bloka
     while(!candidateTransactionPools.empty()){
         auto start = chrono::system_clock::now();
+        size_t candidatePS = candidateTransactionPools.size();
         Block candidateBlock = Block(candidateTransactionPools.at(candidateTransactionPools.size() - 1),
                 prevBlock,
                 time,
@@ -60,10 +59,11 @@ Block Miner::fromCandidateBlocks(vector<Transaction>& transactionPool){
 
         chrono::duration<double> seconds_time = end - start;
         cout << "Uztruko: " << seconds_time.count() << " laiko  " << endl;
-        if(seconds_time.count() > TIME_LIMIT_MINUTES*60){ //geras? Iseiname is funkcijos ir graziname bloka kandidata
+        if(seconds_time.count() < 300.0){ //geras? Iseiname is funkcijos ir graziname bloka kandidata
             return candidateBlock;
         } else {
             candidateTransactionPools.erase(candidateTransactionPools.end());
+            continue;
         }
     }
     throw std::runtime_error("Netinkamai sukonfiguruotas blockchainas - kandidatas blokas renkamas per ilgai!");
@@ -72,7 +72,7 @@ Block Miner::fromCandidateBlocks(vector<Transaction>& transactionPool){
 void Miner::chooseFrom(vector<Transaction>& transactionPool, int amount, vector<Transaction>& writeTo){
     int any = RNG::rangeRandom(0, transactionPool.size());
 
-    for(int i = 0; i < amount; i++){
+    while(writeTo.size() < 100){ //paima butent 100 TINKAMU transakciju. Kitas meta lauk is kasyklos
         Transaction transaction = transactionPool.at(any);
         if(VerifyTransaction::verify(transaction) && VerifyTransaction::senderHasEnoughCredits(transaction)){
             //patikrina ar informacija ir hash kodas sutampa
@@ -80,7 +80,10 @@ void Miner::chooseFrom(vector<Transaction>& transactionPool, int amount, vector<
             writeTo.push_back(transaction);
             transactionPool.erase(transactionPool.begin() + any);
         } else {
-            cout << "Transakcija bloga!" << endl;
+            string message;
+            if(!VerifyTransaction::verify(transaction)) message = " Hasai nesutampa ";
+            if(!VerifyTransaction::senderHasEnoughCredits(transaction)) message = " Kreditu neuztenka! ";
+            cout << "Transakcija bloga! " << message << endl;
             transactionPool.erase(transactionPool.begin() + any);
         }
     }
