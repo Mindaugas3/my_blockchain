@@ -10,7 +10,7 @@
 #include "RNG.h"
 #include "VerifyTransaction.h"
 
-#define TIME_LIMIT_MINUTES 5
+#define TIME_LIMIT_MINUTES 1
 #define difficulty 4
 
 Block Miner::Mine(vector<Transaction> &transactionPool, Block previousBlock) {
@@ -59,7 +59,7 @@ Block Miner::fromCandidateBlocks(vector<Transaction>& transactionPool){
 
         chrono::duration<double> seconds_time = end - start;
         cout << "Uztruko: " << seconds_time.count() << " laiko  " << endl;
-        if(seconds_time.count() < 300.0){ //geras? Iseiname is funkcijos ir graziname bloka kandidata
+        if(seconds_time.count() < TIME_LIMIT_MINUTES*60){ //geras? Iseiname is funkcijos ir graziname bloka kandidata
             return candidateBlock;
         } else {
             candidateTransactionPools.erase(candidateTransactionPools.end());
