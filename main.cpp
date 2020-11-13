@@ -7,6 +7,7 @@
 #include "Generators/TransactionGenerator.h"
 #include "Block/Block.h"
 #include "Generators/Miner.h"
+#include <omp.h>
 
 using namespace std;
 

@@ -14,6 +14,7 @@ Block::Block( vector<Transaction> copiedTransactions, string _prev, string _time
     diffTarget = diffT;
     nonce = 0;
     string hashSum = "";
+#pragma omp parallel
     do {
         nonce++;
         hashSum = getHashSum();
@@ -65,5 +66,6 @@ Block &Block::operator=(const Block &block) {
     merkleHash = block.merkleHash;
     nonce = block.nonce;
     diffTarget = block.diffTarget;
+    return *this;
 }
 

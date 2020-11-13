@@ -3,6 +3,7 @@
 //
 
 #include <algorithm>
+#include <omp.h>
 #include "TransactionGenerator.h"
 #include "RNG.h"
 #include "hashes/Hash_Generator.h"
@@ -11,7 +12,7 @@ vector<Transaction> TransactionGenerator::pickFromUsers(vector<User> users, int 
     vector<Transaction> transactions = vector<Transaction>();
 
     int any = RNG::rangeRandom(0, users.size());
-
+#pragma omp parallel for
     for(int i = 0; i < number; i++){
             //paima du userius
             User sender = users.at(any);
@@ -46,6 +47,7 @@ string TransactionGenerator::getMerkleRoot(const vector<Transaction> &transactio
                 return a.getHash() > b.getHash();
             });
     vector<string> level;
+#pragma omp parallel for
     for(const Transaction& t : transactions){
         level.push_back(t.getHash());
     }
