@@ -65,5 +65,6 @@ Block &Block::operator=(const Block &block) {
     merkleHash = block.merkleHash;
     nonce = block.nonce;
     diffTarget = block.diffTarget;
+    return *this;
 }
 
