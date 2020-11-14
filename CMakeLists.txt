@@ -4,26 +4,26 @@ set(CMAKE_CXX_STANDARD 14)
 
 project(blockchn)
 
+
 # Require MPI for this project:
 if(WIN32)
     #This is for finding MS-MPI.
-    #set(_MPI_PREFIX_PATH)
-    #list(APPEND _MPI_PREFIX_PATH "[HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\MPI;Path]/..")
-    set(MPIEXEC "$ENV{MSMPI_BIN}/mpiexec.exe") #OK
+    set(_MPI_PREFIX_PATH)
+    list(APPEND _MPI_PREFIX_PATH "[HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\MPI;Path]/..")
+    set(MPIEXEC "C:/Program Files/Microsoft MPI/Bin/mpiexec.exe")
     # For building MPI programs the selected Visual Studio compiler is used, namely cl.exe.
     # So there is no need to set a specific MPI compiler.
-    #set(MPI_CXX_COMPILER "${CMAKE_CXX_COMPILER}")
-    set(MPI_CXX_INCLUDE_PATH "$ENV{MSMPI_INC}") #OK
+    set(MPI_CXX_INCLUDE_PATH "C:/Program Files (x86)/Microsoft SDKs/MPI/Include")
     # Make sure the correct libraries (64-bit or 32-bit) are selected.
     # Decide between 32-bit and 64-bit libraries for Microsoft's MPI
     if("${CMAKE_SIZEOF_VOID_P}" EQUAL 8)
         set(MS_MPI_ARCH_DIR x64)
     else()
         set(MS_MPI_ARCH_DIR x86)
-    endif() #
-    set(MPI_CXX_LIBRARIES "$ENV{MSMPI_LIB32}/../{MS_MPI_ARCH_DIR}/msmpi.lib") #C:/Program Files (x86)/Microsoft SDKs/MPI/Lib/
-    set(MPI_C_INCLUDE_PATH "${MPI_CXX_INCLUDE_PATH}")
-    set(MPI_C_LIBRARIES "{${MPI_CXX_LIBRARIES}")
+    endif()
+    set(MPI_CXX_LIBRARIES "C:/Program Files (x86)/Microsoft SDKs/MPI/Lib/${MS_MPI_ARCH_DIR}/msmpi.lib")
+    set(MPI_C_INCLUDE_PATH "${MPI_CXX_INCLUDE_PATH}") #c -> cxx
+    set(MPI_C_LIBRARIES "${MPI_CXX_LIBRARIES}")#c -> cxx
     set(MPIEXEC_NUMPROC_FLAG "-np" CACHE STRING "Flag used by MPI to specify the number of processes for MPIEXEC; the next option will be the number of processes.")
 else()
     find_package(MPI REQUIRED)
@@ -32,6 +32,7 @@ endif()
 set(CMAKE_CXX_COMPILE_FLAGS ${CMAKE_CXX_COMPILE_FLAGS} ${MPI_CXX_COMPILE_FLAGS})
 set(CMAKE_CXX_LINK_FLAGS ${CMAKE_CXX_LINK_FLAGS} ${MPI_CXX_LINK_FLAGS})
 include_directories(${MPI_CXX_INCLUDE_PATH})
+include_directories(SYSTEM ${MPI_INCLUDE_PATH})
 
 add_executable(${PROJECT_NAME} main.cpp Block/User.cpp Block/User.h Block/Transaction.cpp Block/Transaction.h
         Generators/Miner.cpp Generators/Miner.h Generators/RNG.cpp Generators/RNG.h Generators/TransactionGenerator.cpp Generators/TransactionGenerator.h
@@ -40,6 +41,8 @@ add_executable(${PROJECT_NAME} main.cpp Block/User.cpp Block/User.h Block/Transa
         Block/Block.cpp Block/Block.h)
 
 target_link_libraries(${PROJECT_NAME} ${MPI_CXX_LIBRARIES})
+
+#target_link_directories(${PROJECT_NAME} MPI_CXX_INCLUDE_PATH)
 
 # Add a test:
 enable_testing()

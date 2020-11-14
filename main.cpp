@@ -1,6 +1,11 @@
 #include <iostream>
 #include <vector>
 #include <string>
+
+#define _Out_writes_(x) //kada includiname mpi.h visada reikia sito!
+
+#include <mpi.h>
+
 #include "Block/User.h"
 #include "Generators/UserGenerator.h"
 #include "Block/Transaction.h"
@@ -8,19 +13,22 @@
 #include "Block/Block.h"
 #include "Generators/Miner.h"
 
-#include <omp.h>
-#include <mpi.h>
+
 
 using namespace std;
 
+#define parallel_MPI_
 #define TEST_Genesis
 
 int main(int argc, char** argv) {
-    int ierr = MPI_Init(&argc, &argv);
-    int procid, numprocs;
 
-    ierr = MPI_Comm_rank(MPI_COMM_WORLD, &procid);
-    ierr = MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
+    MPI_Init(NULL, NULL);
+
+    int procid;
+    int numprocs;
+
+    MPI_Comm_rank(MPI_COMM_WORLD, &procid);  //rank
+    MPI_Comm_size(MPI_COMM_WORLD, &numprocs); //cores
 
     vector<User> users;
     UserGenerator::generateUsers(users, 1000); //nauji useriai

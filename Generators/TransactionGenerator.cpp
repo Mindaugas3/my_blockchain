@@ -3,7 +3,6 @@
 //
 
 #include <algorithm>
-#include <omp.h>
 #include "TransactionGenerator.h"
 #include "RNG.h"
 #include "hashes/Hash_Generator.h"

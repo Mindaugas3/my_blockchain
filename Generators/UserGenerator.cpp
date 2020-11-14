@@ -3,7 +3,6 @@
 //
 
 #include "UserGenerator.h"
-#include <omp.h>
 
 void UserGenerator::generateUsers(vector<User>& userVec, int amount) {
 #pragma omp parallel for

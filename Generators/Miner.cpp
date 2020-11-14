@@ -2,17 +2,10 @@
 // Created by Mindaugas on 2020-11-09.
 //
 
-#include <ctime>
-#include "Miner.h"
-#include <iostream>
-#include <chrono>
-#include <stdexcept>
-#include <omp.h>
-#include "RNG.h"
-#include "VerifyTransaction.h"
 
-#define TIME_LIMIT_MINUTES 1
-#define difficulty 3
+#include "Miner.h"
+
+
 
 Block Miner::Mine(vector<Transaction> &transactionPool, Block previousBlock) {
     vector<Transaction> blockTransactions;
@@ -36,11 +29,9 @@ Block Miner::genesisBlock(vector<Transaction>& transactionPool) {
 
 Block Miner::fromCandidateBlocks(vector<Transaction>& transactionPool){
 
-
-
-
     //inicializuojame blokus-kandidatus
     vector<vector<Transaction>> candidateTransactionPools;
+    vector<vector<Transaction>> discardedTransactions; //jeigu blokas atmetamas
 
     for(int i = 5; i > 0; i--){
         vector<Transaction> singlePotentialBlock;
@@ -106,3 +97,19 @@ string Miner::now(){
     std::string str(buffer);
     return str;
 }
+
+Block Miner::fromParallel(vector<Transaction> &transactionPool) {
+    
+
+
+
+    return Block(std::vector(), std::basic_string(), std::basic_string(), 0, 0);
+}
+
+#ifdef MPI_PARALLEL_
+void Miner::init(int ierr, int procid, int numprocs) {
+    _ierr = ierr;
+    _procid = procid;
+    _numprocs = numprocs;
+}
+#endif
