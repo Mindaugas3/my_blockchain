@@ -20,8 +20,8 @@ if(WIN32)
         set(MS_MPI_ARCH_DIR x64)
     else()
         set(MS_MPI_ARCH_DIR x86)
-    endif()
-    set(MPI_CXX_LIBRARIES "C:/Program Files (x86)/Microsoft SDKs/MPI/Lib/${MS_MPI_ARCH_DIR}/msmpi.lib") #error
+    endif() #
+    set(MPI_CXX_LIBRARIES "$ENV{MSMPI_LIB32}/../{MS_MPI_ARCH_DIR}/msmpi.lib") #C:/Program Files (x86)/Microsoft SDKs/MPI/Lib/
     set(MPI_C_INCLUDE_PATH "${MPI_CXX_INCLUDE_PATH}")
     set(MPI_C_LIBRARIES "{${MPI_CXX_LIBRARIES}")
     set(MPIEXEC_NUMPROC_FLAG "-np" CACHE STRING "Flag used by MPI to specify the number of processes for MPIEXEC; the next option will be the number of processes.")
