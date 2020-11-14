@@ -35,6 +35,10 @@ Block Miner::genesisBlock(vector<Transaction>& transactionPool) {
 }
 
 Block Miner::fromCandidateBlocks(vector<Transaction>& transactionPool){
+
+
+
+
     //inicializuojame blokus-kandidatus
     vector<vector<Transaction>> candidateTransactionPools;
 

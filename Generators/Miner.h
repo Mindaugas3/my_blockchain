@@ -8,11 +8,14 @@
 #include "../Block/Block.h"
 #include <vector>
 #include <algorithm>
+#include <mpi.h>
 
 class Miner { //bloku kasykla
-    private:
 
     public:
+
+
+
     static Block Mine (vector<Transaction>& transactionPool, Block previousBlock);
     static Block genesisBlock(vector<Transaction>& transactionPool);
     static Block fromCandidateBlocks(vector<Transaction>& transactionPool);

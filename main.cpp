@@ -7,13 +7,20 @@
 #include "Generators/TransactionGenerator.h"
 #include "Block/Block.h"
 #include "Generators/Miner.h"
+
 #include <omp.h>
+#include <mpi.h>
 
 using namespace std;
 
 #define TEST_Genesis
 
-int main() {
+int main(int argc, char** argv) {
+    int ierr = MPI_Init(&argc, &argv);
+    int procid, numprocs;
+
+    ierr = MPI_Comm_rank(MPI_COMM_WORLD, &procid);
+    ierr = MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
 
     vector<User> users;
     UserGenerator::generateUsers(users, 1000); //nauji useriai
@@ -50,5 +57,6 @@ cout << "Sukurtos transakcijos!" << endl;
 
         }
     }
+    MPI_Finalize();
     return 0;
 }
