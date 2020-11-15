@@ -103,7 +103,7 @@ Block Miner::fromParallel(vector<Transaction> &transactionPool) {
 
 
 
-    return Block(std::vector(), std::basic_string(), std::basic_string(), 0, 0);
+    return Block(transactionPool, "", now(), 0, 0);
 }
 
 #ifdef MPI_PARALLEL_

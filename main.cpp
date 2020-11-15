@@ -4,7 +4,7 @@
 
 #define _Out_writes_(x) //kada includiname mpi.h visada reikia sito!
 
-#include <mpi.h>
+#include "mpi.h"
 
 #include "Block/User.h"
 #include "Generators/UserGenerator.h"

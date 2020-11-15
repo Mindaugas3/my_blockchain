@@ -6,8 +6,14 @@ project(blockchn)
 
 
 # Require MPI for this project:
-if(WIN32)
+if(WIN32 OR WIN64)
     #This is for finding MS-MPI.
+    if(WIN64)
+        MESSAGE(OS NAME -> WIN64)
+    else()
+        MESSAGE(OS NAME -> WIN32)
+    endif()
+
     set(_MPI_PREFIX_PATH)
     list(APPEND _MPI_PREFIX_PATH "[HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\MPI;Path]/..")
     set(MPIEXEC "C:/Program Files/Microsoft MPI/Bin/mpiexec.exe")
@@ -24,7 +30,7 @@ if(WIN32)
     set(MPI_CXX_LIBRARIES "C:/Program Files (x86)/Microsoft SDKs/MPI/Lib/${MS_MPI_ARCH_DIR}/msmpi.lib")
     set(MPI_C_INCLUDE_PATH "${MPI_CXX_INCLUDE_PATH}") #c -> cxx
     set(MPI_C_LIBRARIES "${MPI_CXX_LIBRARIES}")#c -> cxx
-    set(MPIEXEC_NUMPROC_FLAG "-np" CACHE STRING "Flag used by MPI to specify the number of processes for MPIEXEC; the next option will be the number of processes.")
+    set(MPIEXEC_NUMPROC_FLAG "-n" CACHE STRING "Flag used by MPI to specify the number of processes for MPIEXEC; the next option will be the number of processes.")
 else()
     find_package(MPI REQUIRED)
 endif()
@@ -42,12 +48,10 @@ add_executable(${PROJECT_NAME} main.cpp Block/User.cpp Block/User.h Block/Transa
 
 target_link_libraries(${PROJECT_NAME} ${MPI_CXX_LIBRARIES})
 
-#target_link_directories(${PROJECT_NAME} MPI_CXX_INCLUDE_PATH)
-
 # Add a test:
 enable_testing()
-if(WIN32)
-    add_test(SimpleTest ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} 4 ${CMAKE_CURRENT_BINARY_DIR}/debug/${PROJECT_NAME}.exe)
+if(WIN32 OR WIN64)
+    add_test(SimpleTest ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} 6 ${CMAKE_CURRENT_BINARY_DIR}/debug/${PROJECT_NAME}.exe)
 else()
-    add_test(SimpleTest ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} 4 ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME})
+    add_test(SimpleTest ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} 6 ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME})
 endif()
