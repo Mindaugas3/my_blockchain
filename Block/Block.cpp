@@ -2,6 +2,7 @@
 // Created by Mindaugas on 2020-11-06.
 //
 
+#include <iterator>
 #include "Block.h"
 #include "../Generators/hashes/Sha256.h"
 #include "../Generators/TransactionGenerator.h"

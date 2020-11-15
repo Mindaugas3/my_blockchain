@@ -16,7 +16,7 @@ class Transaction{
         User receiver;
         float amount;
     public:
-        explicit Transaction(User sender, User _receiver, float _amount);
+        Transaction(User sender, User _receiver, float _amount);
         Transaction(const Transaction &transaction, User receiver, User sender);
         string getHash() const;
         User getSender();

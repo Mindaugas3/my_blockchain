@@ -7,6 +7,8 @@
 
 
 
+
+
 Block Miner::Mine(vector<Transaction> &transactionPool, Block previousBlock) {
     vector<Transaction> blockTransactions;
     chooseFrom(transactionPool, 100, blockTransactions);
@@ -79,7 +81,7 @@ void Miner::chooseFrom(vector<Transaction>& transactionPool, int amount, vector<
             string message;
             if(!VerifyTransaction::verify(transaction)) message = " Hasai nesutampa ";
             if(!VerifyTransaction::senderHasEnoughCredits(transaction)) message = " Kreditu neuztenka! ";
-            cout << "Transakcija bloga! " << message << endl;
+            //cout << "Transakcija bloga! " << message << endl;
             transactionPool.erase(transactionPool.begin() + any);
         }
     }
@@ -99,10 +101,8 @@ string Miner::now(){
 }
 
 Block Miner::fromParallel(vector<Transaction> &transactionPool) {
+
     
-
-
-
     return Block(transactionPool, "", now(), 0, 0);
 }
 

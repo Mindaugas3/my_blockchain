@@ -20,6 +20,7 @@ class Block {
         int nonce;
         int diffTarget;
     public:
+        Block() = default;
         Block(vector<Transaction> copiedTransactions, string _prev, string _time, float _v, int diffT);
         string getHashSum();
         Block(const Block& block);
