@@ -13,7 +13,23 @@
 class Block {
     private:
         vector<Transaction> transactionsInBlock;
-        string prevBlockHash;
+public:
+    const vector<Transaction> &getTransactionsInBlock() const;
+
+    const string &getPrevBlockHash() const;
+
+    const string &getTimeStamp() const;
+
+    float getBlockVersion() const;
+
+    const string &getMerkleHash() const;
+
+    int getNonce() const;
+
+    int getDiffTarget() const;
+
+private:
+    string prevBlockHash;
         string timeStamp;
         float blockVersion;
         string merkleHash;
@@ -25,6 +41,7 @@ class Block {
         string getHashSum();
         Block(const Block& block);
         Block& operator=(const Block& block);
+
 
     static bool startsWithZeroes(string basicString, int amount);
 };

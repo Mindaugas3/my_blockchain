@@ -70,3 +70,31 @@ Block &Block::operator=(const Block &block) {
     return *this;
 }
 
+const vector<Transaction> &Block::getTransactionsInBlock() const {
+    return transactionsInBlock;
+}
+
+const string &Block::getPrevBlockHash() const {
+    return prevBlockHash;
+}
+
+const string &Block::getTimeStamp() const {
+    return timeStamp;
+}
+
+float Block::getBlockVersion() const {
+    return blockVersion;
+}
+
+const string &Block::getMerkleHash() const {
+    return merkleHash;
+}
+
+int Block::getNonce() const {
+    return nonce;
+}
+
+int Block::getDiffTarget() const {
+    return diffTarget;
+}
+

@@ -58,7 +58,7 @@ int main(int argc, char** argv) {
         char singleTransactionBuffer[256];
         for(Transaction& transaction : transactionsPool){
             char singleTransactionBuffer[256];
-            string serialized = Serializer::TransactionToString(transaction);
+            string serialized = Serializer::serializeTransaction(transaction);
             strcpy(singleTransactionBuffer, serialized.c_str());
             MPI_Bcast(singleTransactionBuffer, 256, MPI_CHAR, 0, MPI_COMM_WORLD);
         }
@@ -106,21 +106,19 @@ int main(int argc, char** argv) {
             char singleTransactionBuffer[256];
             MPI_Bcast(singleTransactionBuffer, 256, MPI_CHAR, 0, MPI_COMM_WORLD);
             string fromBuffer(singleTransactionBuffer);
-            Transaction deserialized = Serializer::TransactionFromString(fromBuffer);
+            Transaction deserialized = Serializer::deserializeTransaction(fromBuffer);
             //cout << i << " Received: " << fromBuffer << endl;
             transactionsPool.push_back(deserialized);
         }
 
 
         cout << "Gautas transakciju baseinas : procesas-vergas #" << procid << endl;
-        cout << "Procesai-vergai gavo " << transactionsPool[0].getAmount() << " : "<< transactionsPool[0].getHash() << " " << transactionsPool[0].getSender().getName() << endl;
-        system("PAUSE");
-        if (procid == 1) {
-            Block genesisBlock = Miner::genesisBlock(transactionsPool); //SIGSEGV
 
-            MPI_Send(&genesisBlock, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
-            cout << "Siunciamas genesis blokas " << endl;
-        }
+        Block genesisBlock = Miner::genesisBlock(transactionsPool); //SIGSEGV
+
+        MPI_Send(&genesisBlock, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
+        cout << "Siunciamas genesis blokas " << endl;
+        MPI_Barrier(MPI_COMM_WORLD);
     }
     MPI_Finalize();
     return 0;

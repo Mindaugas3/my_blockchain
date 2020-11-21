@@ -7,15 +7,18 @@
 
 #include "../Block/Transaction.h"
 #include "../Block/User.h"
+#include "../Block/Block.h"
 #include <sstream>
 
 using namespace std;
 class Serializer{
     public:
         //transaction
-        static Transaction TransactionFromString(string transactionStr);
-        static string TransactionToString(Transaction& transaction);
+        static Transaction deserializeTransaction(string transactionStr);
+        static string serializeTransaction(Transaction& transaction);
         //block
+        static Block deserializeBlock(string blockStr);
+        static string serializeBlock(Block& block);
 };
 
 #endif //BLOCKCHN_SERIALIZER_H

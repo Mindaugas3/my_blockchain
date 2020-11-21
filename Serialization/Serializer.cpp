@@ -4,7 +4,7 @@
 
 #include "Serializer.h"
 
-Transaction Serializer::TransactionFromString(string transactionStr) {
+Transaction Serializer::deserializeTransaction(string transactionStr) {
     stringstream input(transactionStr);
     //transaction data
     string hash;
@@ -26,7 +26,7 @@ Transaction Serializer::TransactionFromString(string transactionStr) {
     return Transaction(sender, receiver, amount);
 }
 
-string Serializer::TransactionToString(Transaction& transaction) {
+string Serializer::serializeTransaction(Transaction& transaction) {
     //decompose
     User sender = transaction.getSender(); //ne elementarus
     User receiver = transaction.getReceiver(); //ne elementarus
@@ -46,4 +46,13 @@ string Serializer::TransactionToString(Transaction& transaction) {
     << receiverName << " " << receiver_key << " " << receiverBalance;
 
     return output.str();
+}
+
+Block Serializer::deserializeBlock(string blockStr) {
+
+    return Block();
+}
+
+string Serializer::serializeBlock(Block &block) {
+    return std::string();
 }
