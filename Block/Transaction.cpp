@@ -38,4 +38,11 @@ Transaction::Transaction(const Transaction &transaction, User receiver, User sen
     transactionHash = transaction.transactionHash;
 }
 
+bool Transaction::operator==(Transaction transaction) {
+    return this->sender == transaction.getSender() && //AND
+    this->transactionHash == transaction.getHash() && //AND
+    this->receiver == transaction.getReceiver() && //AND
+    this->amount == transaction.getAmount();
+}
+
 Transaction::~Transaction() = default;

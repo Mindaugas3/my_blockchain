@@ -4,7 +4,6 @@ set(CMAKE_CXX_STANDARD 14)
 
 project(blockchn)
 
-
 # Require MPI for this project:
 if(WIN32 OR WIN64)
     #This is for finding MS-MPI.
@@ -44,7 +43,7 @@ add_executable(${PROJECT_NAME} main.cpp Block/User.cpp Block/User.h Block/Transa
         Generators/Miner.cpp Generators/Miner.h Generators/RNG.cpp Generators/RNG.h Generators/TransactionGenerator.cpp Generators/TransactionGenerator.h
         Generators/UserGenerator.cpp Generators/UserGenerator.h Generators/VerifyTransaction.cpp Generators/VerifyTransaction.h
         Generators/hashes/Hash_Generator.cpp Generators/hashes/Hash_Generator.h Generators/hashes/Sha256.cpp Generators/hashes/Sha256.h
-        Block/Block.cpp Block/Block.h)
+        Block/Block.cpp Block/Block.h Serialization/Serializer.cpp Serialization/Serializer.h)
 
 target_link_libraries(${PROJECT_NAME} ${MPI_CXX_LIBRARIES})
 

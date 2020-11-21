@@ -64,7 +64,8 @@ Block Miner::fromCandidateBlocks(vector<Transaction>& transactionPool){
             continue;
         }
     }
-    throw std::runtime_error("Netinkamai sukonfiguruotas blockchainas - kandidatas blokas renkamas per ilgai!");
+    std::terminate();
+    //throw std::runtime_error("Netinkamai sukonfiguruotas blockchainas - kandidatas blokas renkamas per ilgai!");
 }
 
 void Miner::chooseFrom(vector<Transaction>& transactionPool, int amount, vector<Transaction>& writeTo){

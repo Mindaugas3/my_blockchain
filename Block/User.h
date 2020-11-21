@@ -14,10 +14,10 @@ class User {
     private:
         string uName = "";
         string publicKey = "";
-        string privateKey = "";
         float bal{};
     public:
         User(const string& name);
+        User(const string& name, const string& pkey, float balance);
         User(const User& user);
         string getName() const ;
         float getBalance() const ;

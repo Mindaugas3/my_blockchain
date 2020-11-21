@@ -45,3 +45,9 @@ User& User::operator=(const User& u) {
     uName = u.getName();
     return *this;
 }
+
+User::User(const string &name, const string &pkey, float balance) {
+    uName = name;
+    publicKey = pkey;
+    bal = balance;
+}

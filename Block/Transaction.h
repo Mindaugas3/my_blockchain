@@ -22,6 +22,7 @@ class Transaction{
         User getSender();
         User getReceiver();
         float getAmount();
+        bool operator==(Transaction transaction);
         ~Transaction();
 };
 
