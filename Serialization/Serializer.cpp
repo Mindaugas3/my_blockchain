@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <iomanip>
 #include "Serializer.h"
 
 Transaction Serializer::deserializeTransaction(string transactionStr) {
@@ -42,6 +43,8 @@ string Serializer::serializeTransaction(Transaction& transaction) {
     float receiverBalance = receiver.getBalance();
     //add strings together
     stringstream output;
+    output << fixed;
+    output << setprecision(4);
     output << hash << " " << amount << " "
     << senderName << " " << sender_key << " " << senderBalance << " "
     << receiverName << " " << receiver_key << " " << receiverBalance;
@@ -61,14 +64,16 @@ Block Serializer::deserializeBlock(string blockStr) {
     input >> prevBHash >> timestamp >> version >> nonce >> diffTarget;
     while(!input.eof()){
         string transactionStr;
-        for(int i = 0; i < 8; i++){
+        for(int i = 0; i < 8; i++){ // 8/transaction
             string anything;
             input >> anything;
-            transactionStr += anything;
-            transactionStr += " ";
+            if(!anything.empty()){
+                transactionStr += anything;
+                transactionStr += " ";
+            }
         }
 
-        if(!transactionStr.empty() || transactionStr != " "){
+        if(!transactionStr.empty() || (transactionStr.find_first_not_of(' ') != std::string::npos)){
             cout << "Transaction: " << transactionStr << endl << endl;
             Transaction t = deserializeTransaction(transactionStr);
             storedTransactions.push_back(t);
@@ -87,10 +92,12 @@ string Serializer::serializeBlock(Block &block) {
     int diffTarget = block.getDiffTarget();
 
     stringstream output;
-    output << prevBHash << " " << timestamp << " " << version << " " << nonce << " " << diffTarget;
+    output << prevBHash << " " << timestamp << " " << version << " " << nonce << " " << diffTarget << " ";
     for(Transaction& t : storedTransactions){
         output << serializeTransaction(t) << " ";
     }
 
     return output.str();
 }
+
+

@@ -3,8 +3,11 @@
 //
 
 #include "User.h"
+
+#include <cmath>
 #include "../Generators/RNG.h"
 #include "../Generators/hashes/Hash_Generator.h"
+
 
 User::User(const string& name) {
     uName = name;
@@ -32,7 +35,8 @@ User::User(const User &user) {
 }
 
 bool User::operator==(User u) {
-    return this->uName == u.getName() && this->publicKey == u.getKey() && this->bal == u.getBalance();
+    return this->uName == u.getName() && this->publicKey == u.getKey() &&
+            FloatApproximatelyEquals(this->bal, u.getBalance());
 }
 
 void User::addBalance(float f) {
@@ -50,4 +54,8 @@ User::User(const string &name, const string &pkey, float balance) {
     uName = name;
     publicKey = pkey;
     bal = balance;
+}
+
+bool User::FloatApproximatelyEquals(float A, float B) {
+    return trunc(1000. * A) == trunc(1000. * B);
 }

@@ -45,5 +45,6 @@ private:
         bool operator==(Block& block);
 
     static bool startsWithZeroes(string basicString, int amount);
+
 };
 #endif //BLOCKCHN_BLOCK_H

@@ -3,7 +3,10 @@
 //
 
 #include "Transaction.h"
+
+#include <cmath>
 #include "../Generators/hashes/Hash_Generator.h"
+#define EPSILON 1
 
 Transaction::Transaction(User _sender,User _receiver, float _amount)
         : receiver(receiver), sender(sender) {
@@ -39,10 +42,10 @@ Transaction::Transaction(const Transaction &transaction, User receiver, User sen
 }
 
 bool Transaction::operator==(Transaction transaction) {
-    return this->sender == transaction.getSender() && //AND
-    this->transactionHash == transaction.getHash() && //AND
-    this->receiver == transaction.getReceiver() && //AND
-    this->amount == transaction.getAmount();
+    return this->sender == transaction.getSender() and //AND
+    this->transactionHash == transaction.getHash() and //AND
+    this->receiver == transaction.getReceiver() and //AND
+    User::FloatApproximatelyEquals(this->amount, transaction.getAmount());
 }
 
 Transaction::~Transaction() = default;

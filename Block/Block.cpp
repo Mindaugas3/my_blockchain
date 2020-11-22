@@ -3,9 +3,11 @@
 //
 
 #include <iterator>
+#include <cmath>
 #include "Block.h"
 #include "../Generators/hashes/Sha256.h"
 #include "../Generators/TransactionGenerator.h"
+#define EPSILON 0.01
 
 Block::Block( vector<Transaction> copiedTransactions, string _prev, string _time, float _v, int diffT) {
     copy(copiedTransactions.begin(), copiedTransactions.end(), back_inserter(transactionsInBlock));
@@ -112,7 +114,7 @@ bool Block::operator==(Block& block) {
     this->transactionsInBlock.size() == block.getTransactionsInBlock().size() &&
     equal(this->transactionsInBlock.begin(), this->transactionsInBlock.end(), block.getTransactionsInBlock().begin()) &&
     this->timeStamp == block.getTimeStamp() &&
-    this->blockVersion == block.getBlockVersion() &&
+    User::FloatApproximatelyEquals(this->blockVersion, block.getBlockVersion()) && //version
     this->nonce == block.getNonce() &&
     this->diffTarget == block.getDiffTarget();
 }

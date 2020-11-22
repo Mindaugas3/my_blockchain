@@ -25,6 +25,7 @@ class User {
         void addBalance(float f);
         bool operator==(User u);
         User& operator=(const User& u);
+        static bool FloatApproximatelyEquals(float F1, float F2);
         ~User() = default;
 };
 #endif //BLOCKCHN_USER_H
