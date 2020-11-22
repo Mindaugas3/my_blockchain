@@ -101,12 +101,6 @@ string Miner::now(){
     return str;
 }
 
-Block Miner::fromParallel(vector<Transaction> &transactionPool) {
-
-    
-    return Block(transactionPool, "", now(), 0, 0);
-}
-
 #ifdef MPI_PARALLEL_
 void Miner::init(int ierr, int procid, int numprocs) {
     _ierr = ierr;

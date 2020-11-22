@@ -31,7 +31,6 @@ class Miner { //bloku kasykla
     static Block Mine (vector<Transaction>& transactionPool, Block previousBlock);
     static Block genesisBlock(vector<Transaction>& transactionPool);
     static Block fromCandidateBlocks(vector<Transaction>& transactionPool);
-    static Block fromParallel(vector<Transaction>& transactionPool);
     static void chooseFrom(vector<Transaction> &vector, int i, std::vector<Transaction>& write);
 
     static string now();

@@ -61,8 +61,8 @@ int main(int argc, char** argv) {
             }
         }
 
-        vector<Transaction> randomTestTransactions = TransactionGenerator::pickFromUsers(users, 2);
-        Block testBlock = Block(randomTestTransactions, "whatever", "wedontcareabouttime", 2, 3, 2524);
+        vector<Transaction> randomTestTransactions = TransactionGenerator::pickFromUsers(users, 200);
+        Block testBlock = Block(randomTestTransactions, "00000000000000000000", "wedontcareabouttime", 2, 3, 2524);
         string serializedBlock = Serializer::serializeBlock(testBlock);
         cout << serializedBlock << endl << endl;
         Block deserializedBlock = Serializer::deserializeBlock(serializedBlock);
@@ -87,23 +87,30 @@ int main(int argc, char** argv) {
         cout << "Issiustas transakciju baseinas!" << endl;
         //receive block
 
-        Block genesisBlock;
-
         char blockBuffer [27000];
         MPI_Barrier(MPI_COMM_WORLD);
 
         MPI_Recv(&blockBuffer, 27000, MPI_CHAR, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, &status);
+        int recvnum = status.MPI_SOURCE;
+
+        vector<Transaction> transactionReceived;
+        for(int i = 0; i < 100; i++){
+            char singleTransactionBuffer_[256];
+            MPI_Recv(singleTransactionBuffer_, 256, MPI_CHAR, recvnum, 0, MPI_COMM_WORLD, &status);
+            string fromBuffer(singleTransactionBuffer_);
+            transactionReceived.push_back(Serializer::deserializeTransaction(fromBuffer));
+        }
         cout << "Gautas blokas!" << endl << endl;
+
         string serializedGenesisBlock(blockBuffer);
-        //cout << serializedGenesisBlock << endl;
-        genesisBlock = Serializer::deserializeBlock(serializedGenesisBlock);
-        blockChain.push_back(genesisBlock);
 
-#ifdef TEST_Genesis
-        cout << "Sukurto genesis bloko hash suma: " << blockChain.at(0).getHashSum() << endl;
-        cout << endl << "Kasyklos dydis: " << transactionsPool.size() << endl;
+        Block genesisBlock = Serializer::deserializeBlock(serializedGenesisBlock, transactionReceived); //sigsegv
 
-#endif
+//        blockChain.push_back(genesisBlock);
+//        cout << "Test nonce: " << genesisBlock.getNonce() <<  endl;
+//        cout << "Sukurto genesis bloko hash suma: " << blockChain.at(0).getHashSum() << endl;
+//        cout << endl << "Kasyklos dydis: " << transactionsPool.size() << endl;
+
         string command;
         cout << "-mine : Kasti bloka" << endl;
         Block lastBlockUsed = genesisBlock;
@@ -114,7 +121,6 @@ int main(int argc, char** argv) {
                     blockChain.push_back(minedBlock);
                     cout << "Iskasto bloko hash suma: " << minedBlock.getHashSum() << endl;
                     lastBlockUsed = minedBlock;
-
                     cout << endl << "Kasyklos dydis: " << transactionsPool.size() << endl;
                 }
 
@@ -142,11 +148,22 @@ int main(int argc, char** argv) {
         char blockbuffer[27000];
 
         strcpy(blockbuffer, serializedGenesis.c_str());
+
+        //block
+
+        //
+
         MPI_Send(&blockbuffer, 27000, MPI_CHAR, 0, 0, MPI_COMM_WORLD);
         cout << "Siunciamas genesis blokas is proceso : #" << procid << endl;
-        while(true){
-            MPI_Barrier(MPI_COMM_WORLD);
+        vector<Transaction> genesisTransaction = genesisBlock.getTransactionsInBlock();
+        for(Transaction t : genesisTransaction){
+            char singleTransactionBuffer[256];
+            string serialized = Serializer::serializeTransaction(t);
+            strcpy(singleTransactionBuffer, serialized.c_str());
+            MPI_Send(singleTransactionBuffer, 256, MPI_CHAR, 0, 0, MPI_COMM_WORLD);
         }
+
+        MPI_Barrier(MPI_COMM_WORLD);
     }
     MPI_Finalize();
     return 0;

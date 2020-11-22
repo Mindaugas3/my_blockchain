@@ -6,7 +6,7 @@
 #include <iomanip>
 #include "Serializer.h"
 
-Transaction Serializer::deserializeTransaction(string transactionStr) {
+Transaction Serializer::deserializeTransaction(const string& transactionStr) {
     stringstream input(transactionStr);
     //transaction data
     string hash;
@@ -52,9 +52,8 @@ string Serializer::serializeTransaction(Transaction& transaction) {
     return output.str();
 }
 
-Block Serializer::deserializeBlock(string blockStr) {
+Block Serializer::deserializeBlock(const string& blockStr, const vector<Transaction>& trVec) {
     string prevBHash;
-    vector<Transaction> storedTransactions;
     string timestamp;
     float version;
     int nonce;
@@ -62,30 +61,15 @@ Block Serializer::deserializeBlock(string blockStr) {
 
     stringstream input(blockStr);
     input >> prevBHash >> timestamp >> version >> nonce >> diffTarget;
-    while(!input.eof()){
-        string transactionStr;
-        for(int i = 0; i < 8; i++){ // 8/transaction
-            string anything;
-            input >> anything;
-            if(!anything.empty()){
-                transactionStr += anything;
-                transactionStr += " ";
-            }
-        }
 
-        if(!transactionStr.empty() || (transactionStr.find_first_not_of(' ') != std::string::npos)){
-            cout << "Transaction: " << transactionStr << endl << endl;
-            Transaction t = deserializeTransaction(transactionStr);
-            storedTransactions.push_back(t);
-        }
-    }
-    return Block(storedTransactions, prevBHash, timestamp, version, diffTarget, nonce);
+
+    cout << "Returning block!" << endl;
+    return Block(trVec, prevBHash, timestamp, version, diffTarget, nonce);
 }
 
 string Serializer::serializeBlock(Block &block) {
 
     string prevBHash = block.getPrevBlockHash();
-    vector<Transaction> storedTransactions = block.getTransactionsInBlock();
     string timestamp = block.getTimeStamp();
     float version = block.getBlockVersion();
     int nonce = block.getNonce();
@@ -93,9 +77,6 @@ string Serializer::serializeBlock(Block &block) {
 
     stringstream output;
     output << prevBHash << " " << timestamp << " " << version << " " << nonce << " " << diffTarget << " ";
-    for(Transaction& t : storedTransactions){
-        output << serializeTransaction(t) << " ";
-    }
 
     return output.str();
 }

@@ -4,6 +4,7 @@
 
 #include <iterator>
 #include <cmath>
+#include <iostream>
 #include "Block.h"
 #include "../Generators/hashes/Sha256.h"
 #include "../Generators/TransactionGenerator.h"
@@ -107,6 +108,7 @@ Block::Block(vector<Transaction> copiedTransactions, string _prev, string _time,
     blockVersion = _v;
     diffTarget = diffT;
     nonce = copyNonce;
+    cout << "Returning block!" << endl;
 }
 
 bool Block::operator==(Block& block) {

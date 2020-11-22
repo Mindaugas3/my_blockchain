@@ -14,11 +14,13 @@ using namespace std;
 class Serializer{
     public:
         //transaction
-        static Transaction deserializeTransaction(string transactionStr);
+        static Transaction deserializeTransaction(const string& transactionStr);
         static string serializeTransaction(Transaction& transaction);
         //block
-        static Block deserializeBlock(string blockStr);
+        static Block deserializeBlock(const string &blockStr, const vector<Transaction> &trVec);
         static string serializeBlock(Block& block);
+
+
 };
 
 #endif //BLOCKCHN_SERIALIZER_H
