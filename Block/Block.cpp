@@ -98,3 +98,22 @@ int Block::getDiffTarget() const {
     return diffTarget;
 }
 
+Block::Block(vector<Transaction> copiedTransactions, string _prev, string _time, float _v, int diffT, int copyNonce) {
+    copy(copiedTransactions.begin(), copiedTransactions.end(), back_inserter(transactionsInBlock));
+    copy(_prev.begin(), _prev.end(), back_inserter(prevBlockHash));
+    copy(_time.begin(), _time.end(), back_inserter(timeStamp));
+    blockVersion = _v;
+    diffTarget = diffT;
+    nonce = copyNonce;
+}
+
+bool Block::operator==(Block& block) {
+    return this->prevBlockHash == block.getPrevBlockHash() &&
+    this->transactionsInBlock.size() == block.getTransactionsInBlock().size() &&
+    equal(this->transactionsInBlock.begin(), this->transactionsInBlock.end(), block.getTransactionsInBlock().begin()) &&
+    this->timeStamp == block.getTimeStamp() &&
+    this->blockVersion == block.getBlockVersion() &&
+    this->nonce == block.getNonce() &&
+    this->diffTarget == block.getDiffTarget();
+}
+

@@ -17,7 +17,7 @@ using namespace std;
 
 #define parallel_MPI_
 #define TEST_Genesis
-//#define TEST_Serialization
+#define TEST_Serialization
 
 int main(int argc, char** argv) {
 
@@ -44,10 +44,17 @@ int main(int argc, char** argv) {
 #ifdef TEST_Serialization
         int any = RNG::rangeRandom(0, transactionsPool.size());
         Transaction exampleTransaction = transactionsPool[any];
-        string serializedTransaction = Serializer::TransactionToString(exampleTransaction);
+        string serializedTransaction = Serializer::serializeTransaction(exampleTransaction);
         cout << serializedTransaction << endl;
-        Transaction deserialized = Serializer::TransactionFromString(serializedTransaction);
-        if(deserialized == exampleTransaction) cout << "TRUE" << endl;
+        Transaction deserialized = Serializer::deserializeTransaction(serializedTransaction);
+        if(deserialized == exampleTransaction) cout << "TRUE" << endl << endl;
+
+        vector<Transaction> randomTestTransactions = TransactionGenerator::pickFromUsers(users, 5);
+        Block testBlock = Block(randomTestTransactions, "whatever", "wedontcareabouttime", 2, 3, 2524);
+        string serializedBlock = Serializer::serializeBlock(testBlock);
+        cout << serializedBlock << endl << endl;
+        Block deserializedBlock = Serializer::deserializeBlock(serializedBlock);
+        if(deserializedBlock == testBlock) cout << "TRUE" << endl;
 #endif
 
         vector<Block> blockChain;

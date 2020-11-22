@@ -2,6 +2,7 @@
 // Created by Mindaugas on 2020-11-21.
 //
 
+#include <iostream>
 #include "Serializer.h"
 
 Transaction Serializer::deserializeTransaction(string transactionStr) {
@@ -49,10 +50,47 @@ string Serializer::serializeTransaction(Transaction& transaction) {
 }
 
 Block Serializer::deserializeBlock(string blockStr) {
+    string prevBHash;
+    vector<Transaction> storedTransactions;
+    string timestamp;
+    float version;
+    int nonce;
+    int diffTarget;
 
-    return Block();
+    stringstream input(blockStr);
+    input >> prevBHash >> timestamp >> version >> nonce >> diffTarget;
+    while(!input.eof()){
+        string transactionStr;
+        for(int i = 0; i < 8; i++){
+            string anything;
+            input >> anything;
+            transactionStr += anything;
+            transactionStr += " ";
+        }
+
+        if(!transactionStr.empty() || transactionStr != " "){
+            cout << "Transaction: " << transactionStr << endl << endl;
+            Transaction t = deserializeTransaction(transactionStr);
+            storedTransactions.push_back(t);
+        }
+    }
+    return Block(storedTransactions, prevBHash, timestamp, version, diffTarget, nonce);
 }
 
 string Serializer::serializeBlock(Block &block) {
-    return std::string();
+
+    string prevBHash = block.getPrevBlockHash();
+    vector<Transaction> storedTransactions = block.getTransactionsInBlock();
+    string timestamp = block.getTimeStamp();
+    float version = block.getBlockVersion();
+    int nonce = block.getNonce();
+    int diffTarget = block.getDiffTarget();
+
+    stringstream output;
+    output << prevBHash << " " << timestamp << " " << version << " " << nonce << " " << diffTarget;
+    for(Transaction& t : storedTransactions){
+        output << serializeTransaction(t) << " ";
+    }
+
+    return output.str();
 }
