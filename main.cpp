@@ -87,10 +87,10 @@ int main(int argc, char** argv) {
         cout << "Issiustas transakciju baseinas!" << endl;
         //receive block
 
-        char blockBuffer [27000];
+        char blockBuffer [2700];
         MPI_Barrier(MPI_COMM_WORLD);
 
-        MPI_Recv(&blockBuffer, 27000, MPI_CHAR, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, &status);
+        MPI_Recv(&blockBuffer, 2700, MPI_CHAR, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, &status);
         int recvnum = status.MPI_SOURCE;
 
         vector<Transaction> transactionReceived;
@@ -117,11 +117,23 @@ int main(int argc, char** argv) {
         while (cin >> command) {
             if (command == "-mine") {
                 while (!transactionsPool.empty()) {
-                    Block minedBlock = Miner::Mine(transactionsPool, lastBlockUsed);
+                    MPI_Barrier(MPI_COMM_WORLD); //un-barrier all
+
+                    vector<Transaction> minedTrans;
+                    char minedBuffer[2700];
+                    MPI_Status minedStatus;
+                    MPI_Recv(&minedBuffer, 2700, MPI_CHAR, MPI_ANY_SOURCE, 1, MPI_COMM_WORLD, &minedStatus);
+                    int nodeId = minedStatus.MPI_SOURCE;
+                    string minedBlockSerialized(minedBuffer);
+
+                    for(int i = 0; i < 100; i++){
+                        char singleTransactionBuffer_[256];
+                        MPI_Recv(singleTransactionBuffer_, 256, MPI_CHAR, nodeId, 1, MPI_COMM_WORLD, &status);
+                        string fromBuffer(singleTransactionBuffer_);
+                        minedTrans.push_back(Serializer::deserializeTransaction(fromBuffer));
+                    }
+                    Block minedBlock = Serializer::deserializeBlock(minedBlockSerialized, minedTrans);
                     blockChain.push_back(minedBlock);
-                    cout << "Iskasto bloko hash suma: " << minedBlock.getHashSum() << endl;
-                    lastBlockUsed = minedBlock;
-                    cout << endl << "Kasyklos dydis: " << transactionsPool.size() << endl;
                 }
 
             } else std::terminate();
@@ -145,15 +157,11 @@ int main(int argc, char** argv) {
 
         Block genesisBlock = Miner::genesisBlock(transactionsPool);
         string serializedGenesis = Serializer::serializeBlock(genesisBlock);
-        char blockbuffer[27000];
+        char blockbuffer[2700];
 
         strcpy(blockbuffer, serializedGenesis.c_str());
 
-        //block
-
-        //
-
-        MPI_Send(&blockbuffer, 27000, MPI_CHAR, 0, 0, MPI_COMM_WORLD);
+        MPI_Send(&blockbuffer, 2700, MPI_CHAR, 0, 0, MPI_COMM_WORLD);
         cout << "Siunciamas genesis blokas is proceso : #" << procid << endl;
         vector<Transaction> genesisTransaction = genesisBlock.getTransactionsInBlock();
         for(Transaction t : genesisTransaction){
@@ -164,6 +172,26 @@ int main(int argc, char** argv) {
         }
 
         MPI_Barrier(MPI_COMM_WORLD);
+        Block lastBlockUsed = genesisBlock;
+        while(true){
+            Block minedBlock = Miner::Mine(transactionsPool, lastBlockUsed);
+
+            cout << "Iskasto bloko hash suma: " << minedBlock.getHashSum() << endl;
+            string minedBlockSerialized = Serializer::serializeBlock(minedBlock);
+            char blockBuffer_[2700];
+            strcpy(blockBuffer_, minedBlockSerialized.c_str());
+            MPI_Send(blockBuffer_, 2700, MPI_CHAR, 0, 1, MPI_COMM_WORLD);
+            cout << "Siunciamas iskastas blokas is proceso : #" << procid << endl;
+            vector<Transaction> minedTransaction_ = minedBlock.getTransactionsInBlock();
+            for(Transaction t : minedTransaction_){
+                char singleTransactionBuffer[256];
+                string serialized = Serializer::serializeTransaction(t);
+                strcpy(singleTransactionBuffer, serialized.c_str());
+                MPI_Send(singleTransactionBuffer, 256, MPI_CHAR, 0, 1, MPI_COMM_WORLD);
+            }
+            lastBlockUsed = minedBlock;
+            MPI_Barrier(MPI_COMM_WORLD);
+        }
     }
     MPI_Finalize();
     return 0;
