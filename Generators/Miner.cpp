@@ -11,7 +11,7 @@
 #include "VerifyTransaction.h"
 
 #define TIME_LIMIT_MINUTES 1
-#define difficulty 4
+#define difficulty 3
 
 Block Miner::Mine(vector<Transaction> &transactionPool, Block previousBlock) {
     vector<Transaction> blockTransactions;

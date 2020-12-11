@@ -47,7 +47,10 @@ cout << "Sukurtos transakcijos!" << endl;
                 cout << endl << "Kasyklos dydis: " << transactionsPool.size() << endl;
             }
 
-        }
+        } else {
+	    exit(1);
+	
+	}
     }
     return 0;
 }
